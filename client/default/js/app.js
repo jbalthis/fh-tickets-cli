@@ -1,4 +1,4 @@
-var checkoutWithPayPal = function() {
+var checkOutWithPayPal = function() {
   alert("hahahaha");
 };
 
