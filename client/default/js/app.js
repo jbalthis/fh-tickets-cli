@@ -1,4 +1,4 @@
-/* 
+/*
  * Translates strings like %2d to their ASCII equivalents (dash in this case)
  */
 var replaceAsciiHexCodeWithActualCharacter = function(str) {
@@ -37,7 +37,7 @@ var checkOutWithPayPal = function() {
       var decoded = decodePayPalResponse(response);
       //TODO check if ACK=Success
       var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded["TOKEN"];
-      window.location = redirectUrl;
+      $("#payPalFrame iframe").attr('src', redirectUrl);
     });
 };
 
