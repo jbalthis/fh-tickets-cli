@@ -27,6 +27,9 @@ var decodePayPalResponse = function(response) {
 };
 
 var checkOutWithPayPal = function() {
+  computeFormValues();
+
+  //set up payment via AJAX
   var form = $("#chosenTicketsForm");
   $
     .post(form.attr('action'), form.serialize())
@@ -38,6 +41,19 @@ var checkOutWithPayPal = function() {
     });
 };
 
+var computeFormValues = function() {
+  //compute total amount and set it to PAYMENTREQUEST_0_AMT
+  var totalAmount = 0;
+  for (i = 0; i < 3; i++) {
+    totalAmount += $("input[name=L_PAYMENTREQUEST_0_QTY" + i + "]").val() * $("input[name=L_PAYMENTREQUEST_0_AMT" + i + " ]").val();
+  }
+  $('input[name=PAYMENTREQUEST_0_AMT]').val(totalAmount);
+
+  //disable L_PAYMENTREQUEST_0_AMTm for tickets user doesn't want to buy
+  $('.itemAmount').each(function() { $(this).attr('disabled', $(this).siblings('.itemQty').val() == 0); });
+};
+
 $(function() {
+  $('#checkOutWithPayPal').click(checkOutWithPayPal);
 });
 

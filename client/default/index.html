@@ -11,39 +11,42 @@
     <p>Following tickets are available:</p>
     <form id="chosenTicketsForm" method="post" action="https://api-3t.sandbox.paypal.com/nvp">
       <input type="hidden" name=VERSION value="63.0"/> 
-      <input type="hidden" name=USER value="skalee_1312381553_biz_api1.gmail.com"/>
-      <input type="hidden" name=PWD value="1312381595"/>
-      <input type="hidden" name=SIGNATURE value="AIX7OUbleyUwYBhGzdrqW9Uvo8JjAPba38WwBtSghqVJCcS3.86BdOtE"/> 
+      <input type="hidden" name=USER value="skalee_1312461335_biz_api1.gmail.com"/>
+      <input type="hidden" name=PWD value="1312461375"/>
+      <input type="hidden" name=SIGNATURE value="AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"/> 
       <input type="hidden" name=RETURNURL value=http://www.YourReturnURL.com> 
       <input type="hidden" name=CANCELURL value=http://www.YourCancelURL.com> 
       <input type="hidden" name=METHOD value="SetExpressCheckout"/> 
+
+      <input type="hidden" name="PAYMENTREQUEST_0_CURRENCYCODE" value="EUR"/> 
+      <input type="hidden" name="PAYMENTREQUEST_0_AMT" value="0"/>
 
       <ul>
         <li>
           <span>VIP sector</span>
           <span>&euro;300</span>
-          <input type="number" name="SecVIP" value="0" min="0"/>
-          <input type="hidden" name="PAYMENTREQUEST_0_CURRENCYCODE" value="EUR"/> 
-          <input type="hidden" name="PAYMENTREQUEST_0_AMT" value="300"/>
+          <input type="number" name="L_PAYMENTREQUEST_0_QTY0" class="itemQty" value="0" min="0"/>
+          <input type="hidden" name="L_PAYMENTREQUEST_0_NAME0" value="VIP Sector tickets"/>
+          <input type="hidden" name="L_PAYMENTREQUEST_0_AMT0" class="itemAmount" value="300"/>
         </li>
         <li>
           <span>Sector A</span>
           <span>&euro;30</span>
-          <input type="number" name="SecA" value="0" min="0"/>
-          <!--<input type="hidden" name="PAYMENTREQUEST_1_CURRENCYCODE" value="EUR"/> 
-          <input type="hidden" name="PAYMENTREQUEST_1_AMT" value="30"/>-->
+          <input type="number" name="L_PAYMENTREQUEST_0_QTY1" class="itemQty" value="0" min="0"/>
+          <input type="hidden" name="L_PAYMENTREQUEST_0_NAME1" value="Sector A tickets"/>
+          <input type="hidden" name="L_PAYMENTREQUEST_0_AMT1" class="itemAmount" value="30"/>
         </li>
         <li>
           <span>Sector B</span>
           <span>&euro;10</span>
-          <input type="number" name="SecB" value="0" min="0"/>
-          <!--<input type="hidden" name="PAYMENTREQUEST_2_CURRENCYCODE" value="EUR"/> 
-          <input type="hidden" name="PAYMENTREQUEST_2_AMT" value="10"/-->
+          <input type="number" name="L_PAYMENTREQUEST_0_QTY2" class="itemQty" value="0" min="0"/>
+          <input type="hidden" name="L_PAYMENTREQUEST_0_NAME2" value="Sector B tickets"/>
+          <input type="hidden" name="L_PAYMENTREQUEST_0_AMT2" class="itemAmount" value="10"/>
         </li>
       </ul>
     </form>
     <p>
-      <a id="checkOutWithPayPal" onclick="checkOutWithPayPal(); return false;">
+      <a id="checkOutWithPayPal">
         <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" style="margin-right:7px;"/>
       </a>
     </p>
