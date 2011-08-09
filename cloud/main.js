@@ -1,5 +1,8 @@
 function ppSetPayment(ticketsVIP, ticketsA, ticketsB) {
   return "OK SO FAR";
+}
+
+function commentedOut() {
   var requestParams = [
     {name: 'VERSION', value: '63.0'},
     {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
