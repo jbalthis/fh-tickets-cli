@@ -27,6 +27,15 @@ var decodePayPalResponse = function(response) {
 };
 
 var checkOutWithPayPal = function() {
+  $fh.act({
+    act: 'ppSetPayment',
+    req: {ticketsVIP: $('input[name=VIP]').val(), ticketsA: $('input[name=SectorA]').val(), ticketsB: $('input[name=SectorB]').val()},
+  }, function(response) {
+    alert(response);
+  });
+};
+
+/*var checkOutWithPayPal = function() {
   computeFormValues();
 
   //set up payment via AJAX
@@ -39,7 +48,7 @@ var checkOutWithPayPal = function() {
       var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded["TOKEN"];
       $("#payPalFrame iframe").attr('src', redirectUrl);
     });
-};
+};*/
 
 var computeFormValues = function() {
   //compute total amount and set it to PAYMENTREQUEST_0_AMT
