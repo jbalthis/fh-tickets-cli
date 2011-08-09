@@ -30,9 +30,9 @@ var checkOutWithPayPal = function() {
   $fh.act({
     act: 'pSetPayment',
     req: {
-      /*"ticketsVIP": $('input[name=VIP]').val(),
-      "ticketsA":   $('input[name=SectorA]').val(),
-      "ticketsB":   $('input[name=SectorB]').val()*/
+      ticketsVIP: $('input[name=VIP]').val(),
+      ticketsA:   $('input[name=SectorA]').val(),
+      ticketsB:   $('input[name=SectorB]').val()
     }
   }, function(response) {
     alert(response.text);
