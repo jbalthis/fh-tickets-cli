@@ -64,7 +64,7 @@ var checkOutWithPayPal = function() {
     cookies: [],
     period: 1360000
   }, function(response) {
-    var decoded = response.body ? decodePayPalResponse(response) : {};
+    var decoded = response.body ? decodePayPalResponse(response.body) : {};
     if (!decoded.TOKEN) {
       alert("Something wrong!");
       return;
