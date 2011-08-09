@@ -35,7 +35,7 @@ function pSetPayment() {
     ],
     cookies: [
     ],
-    period: 360000
+    period: 1360000
   });
 
   return response;
