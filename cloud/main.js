@@ -1,4 +1,5 @@
-function ppSetPayment(/*ticketsVIP, ticketsA, ticketsB*/) {
-  return "OK SO FAR";
+function pSetPayment(/*ticketsVIP, ticketsA, ticketsB*/) {
+  var obj = {text: "OK SO FAR"};
+  return obj;
 }
 

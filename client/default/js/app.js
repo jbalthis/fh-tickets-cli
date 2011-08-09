@@ -28,14 +28,14 @@ var decodePayPalResponse = function(response) {
 
 var checkOutWithPayPal = function() {
   $fh.act({
-    act: 'ppSetPayment',
+    act: 'pSetPayment',
     req: {
       /*"ticketsVIP": $('input[name=VIP]').val(),
       "ticketsA":   $('input[name=SectorA]').val(),
       "ticketsB":   $('input[name=SectorB]').val()*/
     }
   }, function(response) {
-    alert(response);
+    alert(response.text);
   });
 };
 
