@@ -35,7 +35,8 @@ var checkOutWithPayPal = function() {
       ticketsB:   $('input[name=SectorB]').val()
     }
   }, function(response) {
-    alert(response.text);
+    var decoded = decodePayPalResponse(response.body);
+    alert(decoded.TOKEN);
   });
 };
 
