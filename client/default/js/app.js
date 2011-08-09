@@ -70,7 +70,8 @@ var checkOutWithPayPal = function() {
       return;
     }
     var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;
-    $("#payPalFrame iframe").attr('src', redirectUrl);
+    //$("#payPalFrame iframe").attr('src', redirectUrl);
+    window.location = redirectUrl;
   });
 
 };
