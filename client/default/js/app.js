@@ -60,13 +60,17 @@ var checkOutWithPayPal = function() {
     charset: 'UTF-8',
     contentType: 'text/plain',
     params: requestParams,
-    headers: [
-    ],
-    cookies: [
-    ],
+    headers: [],
+    cookies: [],
     period: 1360000
   }, function(response) {
-    alert(response.body);
+    var decoded = response.body ? decodePayPalResponse(response) : {};
+    if (!decoded.TOKEN) {
+      alert("Something wrong!");
+      return;
+    }
+    var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;
+    $("#payPalFrame iframe").attr('src', redirectUrl);
   });
 
 };
