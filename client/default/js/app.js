@@ -71,7 +71,7 @@ var checkOutWithPayPal = function() {
     }
     var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;
     //$("#payPalFrame iframe").attr('src', redirectUrl);
-    document.location = redirectUrl;
+    return 1;
   });
 
 };
