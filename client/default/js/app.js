@@ -48,8 +48,8 @@ var checkOutWithPayPal = function() {
     {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
     {name: 'PWD', value: "1312461375"},
     {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
-    {name: 'RETURNURL', value: currentUrl.replace(/\/index.html/, "/success.html"},
-    {name: 'CANCELURL', value: currentUrl.replace(/\/index.html/, "/failure.html"},
+    {name: 'RETURNURL', value: currentUrl.replace(/\/index.html/, "/success.html")},
+    {name: 'CANCELURL', value: currentUrl.replace(/\/index.html/, "/failure.html")},
     {name: 'METHOD', value: "SetExpressCheckout"},
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
     {name: 'PAYMENTREQUEST_0_AMT', value: "60"}
