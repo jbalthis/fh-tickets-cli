@@ -66,16 +66,17 @@ var checkOutWithPayPal = function() {
     cookies: [],
     period: 1360000
   }, function(response) {
-    var decoded = response.body ? decodePayPalResponse(response.body) : {};
+    /*var decoded = response.body ? decodePayPalResponse(response.body) : {};
     if (!decoded.TOKEN) {
       alert("Something wrong!");
       return;
     }
-    var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;
+    var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;*/
     //$("#payPalFrame iframe").attr('src', redirectUrl);
     //$("#redirector").attr('href', redirectUrl);
 
-    $fh.webview({url: redirectUrl, 'title':"hello"},
+    var redirectUrl = "http://www.onet.pl";
+    $fh.webview({'url': redirectUrl, 'title':"hello"},
       function(result){
         alert(result);
       },
