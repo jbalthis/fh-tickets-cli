@@ -75,16 +75,16 @@ var checkOutWithPayPal = function() {
     //$("#payPalFrame iframe").attr('src', redirectUrl);
     //$("#redirector").attr('href', redirectUrl);
 
-    $fh.webview({redirectUrl, 'title':"hello"},
+    $fh.webview({url: redirectUrl, 'title':"hello"},
       function(result){
-        alert(result)
+        alert(result);
       },
       function(result){
-        alert(result)
+        alert(result);
       });
 
 
-    window.location = redirectUrl;
+    //window.location = redirectUrl;
   });
 
 };
