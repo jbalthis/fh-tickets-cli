@@ -75,7 +75,7 @@ var checkOutWithPayPal = function() {
     //$("#payPalFrame iframe").attr('src', redirectUrl);
     //$("#redirector").attr('href', redirectUrl);
 
-    var redirectUrl = "http://www.onet.pl";
+    var redirectUrl = "https://duckduckgo.com/";
     $fh.webview({'url': redirectUrl, 'title':"hello"},
       function(result){
         alert(result);
