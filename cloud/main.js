@@ -41,3 +41,13 @@ function pSetPayment() {
   return response;
 }
 
+function pUserAccepts() {
+  $fh.log('info', 'User decides to pay');
+  return {};
+}
+
+function pUserDenies() {
+  $fh.log('info', 'User denies to pay');
+  return {};
+}
+

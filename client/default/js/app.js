@@ -43,13 +43,16 @@ var checkOutWithPayPal2 = function() {
 var checkOutWithPayPal = function() {
   var currentUrl = window.location.href;
 
+  var returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl;
+  var cancelUrl = $fh.util({cloudUrl: 'pUserDenies'}).cloudUrl;
+
   var requestParams = [
     {name: 'VERSION', value: '63.0'},
     {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
     {name: 'PWD', value: "1312461375"},
     {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
-    {name: 'RETURNURL', value: "index.html"/*currentUrl.replace(/\/index.html/, "/success.html")*/},
-    {name: 'CANCELURL', value: currentUrl.replace(/\/index.html/, "/failure.html")},
+    {name: 'RETURNURL', value: returnUrl},
+    {name: 'CANCELURL', value: cancelUrl},
     {name: 'METHOD', value: "SetExpressCheckout"},
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
     {name: 'PAYMENTREQUEST_0_AMT', value: "60"}
