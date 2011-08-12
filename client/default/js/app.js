@@ -44,21 +44,21 @@ var checkOutWithPayPal2 = function () {
 };
 
 var checkOutWithPayPal = function () {
-  var currentUrl = window.location.href,
-      returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
-      cancelUrl = $fh.util({cloudUrl: 'pUserDenies'}).cloudUrl;
-
-  var requestParams = [
-    {name: 'VERSION', value: '63.0'},
-    {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
-    {name: 'PWD', value: "1312461375"},
-    {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
-    {name: 'RETURNURL', value: returnUrl},
-    {name: 'CANCELURL', value: cancelUrl},
-    {name: 'METHOD', value: "SetExpressCheckout"},
-    {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
-    {name: 'PAYMENTREQUEST_0_AMT', value: "60"}
-  ];
+  var
+    currentUrl = window.location.href,
+    returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
+    cancelUrl = $fh.util({cloudUrl: 'pUserDenies'}).cloudUrl,
+    requestParams = [
+      {name: 'VERSION', value: '63.0'},
+      {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
+      {name: 'PWD', value: "1312461375"},
+      {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
+      {name: 'RETURNURL', value: returnUrl},
+      {name: 'CANCELURL', value: cancelUrl},
+      {name: 'METHOD', value: "SetExpressCheckout"},
+      {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
+      {name: 'PAYMENTREQUEST_0_AMT', value: "60"}
+    ];
 
 
   $fh.web({
@@ -83,7 +83,7 @@ var checkOutWithPayPal = function () {
     return true;
 
     var redirectUrl = "http://onet.pl/";
-    $fh.webview({'url': redirectUrl, 'title':"hello"},
+    $fh.webview({'url': redirectUrl, 'title': "hello"},
       function (result) {
         alert(result);
       },
