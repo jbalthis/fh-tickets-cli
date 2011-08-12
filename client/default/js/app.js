@@ -44,22 +44,47 @@ var checkOutWithPayPal2 = function () {
 };
 
 var checkOutWithPayPal = function () {
-
   $fh.act({
-    act: 'pUtility',
+    act: 'pFetchConfig',
     req: {}
-  }, function (response) {
-    alert($fh.stringify(response));
+  }, function(requestParams) {
+
+    $fh.web({
+      url: "https://api-3t.sandbox.paypal.com/nvp",
+      method: 'POST',
+      charset: 'UTF-8',
+      contentType: 'text/plain',
+      params: requestParams,
+      headers: [],
+      cookies: [],
+      period: 1360000
+    }, function (response) {
+      var decoded = response.body ? decodePayPalResponse(response.body) : {};
+      if (!decoded.TOKEN) {
+        alert("Something wrong!");
+        return;
+      }
+      var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;
+      $("#payPalFrame iframe").attr('src', redirectUrl);
+      window.location = redirectUrl;
+      return true;
+
+    /*var redirectUrl = "http://onet.pl/";
+    $fh.webview({'url': redirectUrl, 'title': "hello"},
+      function (result) {
+        alert(result);
+      },
+      function (result) {
+        alert(result);
+      });*/
+
+    });
   });
+}
 
-  return false;
-//}
+var checkOutWithPayPal7 = function () {
 
-//var aaaa = function() {
   var
-    currentUrl = window.location.href,
-    returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
-    cancelUrl = $fh.util({cloudUrl: 'pUserDenies'}).cloudUrl,
     requestParams = [
       {name: 'VERSION', value: '63.0'},
       {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
