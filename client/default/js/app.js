@@ -47,7 +47,8 @@ var checkOutWithPayPal = function () {
   $fh.act({
     act: 'pFetchConfig',
     req: {}
-  }, function(requestParams) {
+  }, function(response1) {
+    var requestParams = response1.config;
 
     $fh.web({
       url: "https://api-3t.sandbox.paypal.com/nvp",

@@ -1,5 +1,5 @@
 function pFetchConfig() {
-  return {
+  var configuration = [
     {name: 'VERSION', value: '63.0'},
     {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
     {name: 'PWD', value: "1312461375"},
@@ -9,7 +9,8 @@ function pFetchConfig() {
     {name: 'METHOD', value: "SetExpressCheckout"},
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
     {name: 'PAYMENTREQUEST_0_AMT', value: "100"}
-  };
+  ];
+  return {config: configuration};
 }
 
 function pSetPayment() {
