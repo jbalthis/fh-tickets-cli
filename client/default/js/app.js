@@ -1,3 +1,6 @@
+//For JSLint
+/* global $, $fh, window */
+
 /*
  * Translates strings like %2d to their ASCII equivalents (dash in this case)
  */
@@ -20,7 +23,7 @@ var decodePayPalResponse = function (response) {
     .split('&')
     .map(function (keyval) {
       return keyval.split('=');
-    }).forEach(function(pair) {
+    }).forEach(function (pair) {
       decoded[pair[0]] = pair[1].replace(/%[A-Za-z0-9]{2}/g, replaceAsciiHexCodeWithActualCharacter);
     });
   return decoded;
@@ -41,10 +44,9 @@ var checkOutWithPayPal2 = function () {
 };
 
 var checkOutWithPayPal = function () {
-  var currentUrl = window.location.href;
-
-  var returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl;
-  var cancelUrl = $fh.util({cloudUrl: 'pUserDenies'}).cloudUrl;
+  var currentUrl = window.location.href,
+      returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
+      cancelUrl = $fh.util({cloudUrl: 'pUserDenies'}).cloudUrl;
 
   var requestParams = [
     {name: 'VERSION', value: '63.0'},
@@ -68,7 +70,7 @@ var checkOutWithPayPal = function () {
     headers: [],
     cookies: [],
     period: 1360000
-  }, function(response) {
+  }, function (response) {
     var decoded = response.body ? decodePayPalResponse(response.body) : {};
     if (!decoded.TOKEN) {
       alert("Something wrong!");
@@ -81,11 +83,11 @@ var checkOutWithPayPal = function () {
     return true;
 
     var redirectUrl = "http://onet.pl/";
-    var wv = $fh.webview({'url': redirectUrl, 'title':"hello"},
-      function(result){
+    $fh.webview({'url': redirectUrl, 'title':"hello"},
+      function (result) {
         alert(result);
       },
-      function(result){
+      function (result) {
         alert(result);
       });
 
@@ -111,19 +113,19 @@ var checkOutWithPayPal = function () {
     });
 };*/
 
-var computeFormValues = function() {
+var computeFormValues = function () {
   //compute total amount and set it to PAYMENTREQUEST_0_AMT
   var totalAmount = 0;
-  for (i = 0; i < 3; i++) {
+  for (var i = 0; i < 3; i++) {
     totalAmount += $("input[name=L_PAYMENTREQUEST_0_QTY" + i + "]").val() * $("input[name=L_PAYMENTREQUEST_0_AMT" + i + " ]").val();
   }
   $('input[name=PAYMENTREQUEST_0_AMT]').val(totalAmount);
 
   //disable L_PAYMENTREQUEST_0_AMTm for tickets user doesn't want to buy
-  $('.itemAmount').each(function() { $(this).attr('disabled', $(this).siblings('.itemQty').val() == 0); });
+  $('.itemAmount').each(function () { $(this).attr('disabled', $(this).siblings('.itemQty').val() == 0); });
 };
 
-$(function() {
+$(function () {
   $('#checkOutWithPayPal').click(checkOutWithPayPal);
 });
 
