@@ -50,12 +50,12 @@ var checkOutWithPayPal = function () {
     req: {}
   }, function (response) {
     alert($fh.stringify(response));
-  }
+  });
 
   return false;
-  }
+//}
 
-  var aaaa = function() {
+//var aaaa = function() {
   var
     currentUrl = window.location.href,
     returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
