@@ -52,7 +52,7 @@ var checkOutWithPayPal = function () {
     alert($fh.stringify(response));
   }
 
-  return;
+  return false;
   var
     currentUrl = window.location.href,
     returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
