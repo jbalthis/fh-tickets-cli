@@ -1,7 +1,7 @@
 /*
  * Translates strings like %2d to their ASCII equivalents (dash in this case)
  */
-var replaceAsciiHexCodeWithActualCharacter = function(str) {
+var replaceAsciiHexCodeWithActualCharacter = function (str) {
   return String.fromCharCode(parseInt(str.substr(1), 16));
 };
 
@@ -14,11 +14,11 @@ var replaceAsciiHexCodeWithActualCharacter = function(str) {
  * 2. Split each element on =
  * 3. Restore escaped ASCII sequences
  */
-var decodePayPalResponse = function(response) {
+var decodePayPalResponse = function (response) {
   var decoded = {};
   response
     .split('&')
-    .map(function(keyval) {
+    .map(function (keyval) {
       return keyval.split('=');
     }).forEach(function(pair) {
       decoded[pair[0]] = pair[1].replace(/%[A-Za-z0-9]{2}/g, replaceAsciiHexCodeWithActualCharacter);
@@ -26,7 +26,7 @@ var decodePayPalResponse = function(response) {
   return decoded;
 };
 
-var checkOutWithPayPal2 = function() {
+var checkOutWithPayPal2 = function () {
   $fh.act({
     act: 'pSetPayment',
     req: {
@@ -34,13 +34,13 @@ var checkOutWithPayPal2 = function() {
       ticketsA:   $('input[name=SectorA]').val(),
       ticketsB:   $('input[name=SectorB]').val()
     }
-  }, function(response) {
+  }, function (response) {
     var decoded = decodePayPalResponse(response.body);
     alert(decoded.TOKEN);
   });
 };
 
-var checkOutWithPayPal = function() {
+var checkOutWithPayPal = function () {
   var currentUrl = window.location.href;
 
   var returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl;
