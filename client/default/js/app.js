@@ -53,6 +53,9 @@ var checkOutWithPayPal = function () {
   }
 
   return false;
+  }
+
+  var aaaa = function() {
   var
     currentUrl = window.location.href,
     returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
