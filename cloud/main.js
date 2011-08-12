@@ -1,3 +1,7 @@
+function pUtility() {
+  return $fh.util({'cloudUrl': 'pUserAccepts'});
+}
+
 function pSetPayment() {
   var requestParams = [
     {name: 'VERSION', value: '63.0'},

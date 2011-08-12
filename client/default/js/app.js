@@ -44,6 +44,15 @@ var checkOutWithPayPal2 = function () {
 };
 
 var checkOutWithPayPal = function () {
+
+  $fh.act({
+    act: 'pUtility',
+    req: {}
+  }, function (response) {
+    alert($fh.stringify(response));
+  }
+
+  return;
   var
     currentUrl = window.location.href,
     returnUrl = $fh.util({cloudUrl: 'pUserAccepts'}).cloudUrl,
