@@ -122,7 +122,9 @@ var computeFormValues = function () {
   $('input[name=PAYMENTREQUEST_0_AMT]').val(totalAmount);
 
   //disable L_PAYMENTREQUEST_0_AMTm for tickets user doesn't want to buy
-  $('.itemAmount').each(function () { $(this).attr('disabled', $(this).siblings('.itemQty').val() == 0); });
+  $('.itemAmount').each(function () {
+    $(this).attr('disabled', $(this).siblings('.itemQty').val() == 0);
+  });
 };
 
 $(function () {
