@@ -48,7 +48,7 @@ var checkOutWithPayPal = function() {
     {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
     {name: 'PWD', value: "1312461375"},
     {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
-    {name: 'RETURNURL', value: currentUrl.replace(/\/index.html/, "/success.html")},
+    {name: 'RETURNURL', value: "index.html"/*currentUrl.replace(/\/index.html/, "/success.html")*/},
     {name: 'CANCELURL', value: currentUrl.replace(/\/index.html/, "/failure.html")},
     {name: 'METHOD', value: "SetExpressCheckout"},
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
@@ -66,14 +66,16 @@ var checkOutWithPayPal = function() {
     cookies: [],
     period: 1360000
   }, function(response) {
-    /*var decoded = response.body ? decodePayPalResponse(response.body) : {};
+    var decoded = response.body ? decodePayPalResponse(response.body) : {};
     if (!decoded.TOKEN) {
       alert("Something wrong!");
       return;
     }
-    var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;*/
-    //$("#payPalFrame iframe").attr('src', redirectUrl);
+    var redirectUrl = "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN;
+    $("#payPalFrame iframe").attr('src', redirectUrl);
     //$("#redirector").attr('href', redirectUrl);
+    window.location = redirectUrl;
+    return true;
 
     var redirectUrl = "http://onet.pl/";
     var wv = $fh.webview({'url': redirectUrl, 'title':"hello"},
@@ -86,7 +88,6 @@ var checkOutWithPayPal = function() {
 
     return true;
 
-    //window.location = redirectUrl;
   });
 
 };
