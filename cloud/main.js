@@ -68,7 +68,7 @@ function trySettingUpTransaction(triesLeft) {
     ],
     cookies: [
     ],
-    period: 1360000
+    period: 0//1360000
   });
 
   $fh.log('debug', 'tmp ' + $fh.stringify(response));
