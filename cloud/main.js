@@ -71,6 +71,7 @@ function trySettingUpTransaction(triesLeft) {
     period: 1360000
   });
 
+  $fh.log('debug', 'tmp ' + $fh.stringify(response));
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
