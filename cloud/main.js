@@ -26,6 +26,11 @@ var decodePayPalResponse = function (response) {
   return decoded;
 };
 
+var failWithMessage = function (msg) {
+  $fh.log('error', msg);
+  return ({'status': 'error', message: msg});
+};
+
 /*---*/
 /*
 function pFetchConfig() {
@@ -78,14 +83,13 @@ function pSetPayment() {
   $fh.log('debug', 'User wants to pay for tickets');
   var response = trySettingUpTransaction(11);
 
-  if (!response) {
-    $fh.log('error', 'Could not set up payment.');
-    return ({'status': 'error'});
-  }
+  if (!response) { failWithMessage('Timeouts.'); }
 
-  $fh.log('debug', 'PayPal server responds with: ' + response.body);
   var decoded = decodePayPalResponse(response.body);
-  $fh.log('debug', 'And after decoding this is: ' + $fh.stringify(decoded));
+  $fh.log('debug', 'PayPal server responds with: ' + decoded);
+
+  if (decoded.ACK !== 'Success') { failWithMessage('Some payment error.'); }
+
   return ({'status': 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
 }
 
@@ -109,6 +113,7 @@ function oldPayment() {
 
 function pUserAccepts() {
   $fh.log('info', 'User decides to pay');
+  $fh.log('debug', 'Request came with params: ' + $fh.stringify($params));
 
   return {};
 }
