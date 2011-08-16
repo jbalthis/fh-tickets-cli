@@ -27,7 +27,7 @@ var decodePayPalResponse = function (response) {
 };
 
 /*---*/
-
+/*
 function pFetchConfig() {
   var configuration = [
     {name: 'VERSION', value: '63.0'},
@@ -42,7 +42,7 @@ function pFetchConfig() {
   ];
   return {config: configuration};
 }
-
+*/
 function trySettingUpTransaction(triesLeft) {
   if (triesLeft === 0) return false;
 
@@ -84,8 +84,9 @@ function pSetPayment() {
   }
 
   $fh.log('debug', 'PayPal server responds with: ' + response.body);
-  var decoded = decodePayPalResponse(response);
-  return ({status: 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
+  var decoded = decodePayPalResponse(response.body);
+  $fh.log('debug', 'And after decoding this is: ' + $fh.stringify(decoded));
+  return ({'status': 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
 }
 
 function oldPayment() {
