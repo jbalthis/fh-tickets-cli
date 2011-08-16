@@ -76,16 +76,16 @@ function trySettingUpTransaction(triesLeft) {
 
 function pSetPayment() {
   $fh.log('debug', 'User wants to pay for tickets');
-  var response = trySettingUpTransaction(7);
+  var response = trySettingUpTransaction(11);
 
   if (!response) {
     $fh.log('error', 'Could not set up payment.');
-    return ({'error': 'error'});
+    return ({'status': 'error'});
   }
 
   $fh.log('debug', 'PayPal server responds with: ' + response.body);
   var decoded = decodePayPalResponse(response);
-  return ({redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
+  return ({status: 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
 }
 
 function oldPayment() {

@@ -7,7 +7,9 @@ var checkOutWithPayPal = function () {
     req: {}
   }, function(response) {
     //$("#payPalFrame iframe").attr('src', redirectUrl);
-    window.location = response.redirectUrl;
+    if (response.status == 'ok') {
+      window.location = response.redirectUrl;
+    }
   });
 };
 
