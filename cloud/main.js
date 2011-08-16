@@ -68,10 +68,9 @@ function trySettingUpTransaction(triesLeft) {
     ],
     cookies: [
     ],
-    period: 4000//1360000
+    period: 4000
   });
 
-  $fh.log('debug', 'tmp ' + $fh.stringify(response));
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
