@@ -71,16 +71,21 @@ function trySettingUpTransaction(triesLeft) {
     period: 1360000
   });
 
-  return (response.body ? response : trySettingUpTransaction(triesLeft - 1);
+  return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
 function pSetPayment() {
+  $fh.log('debug', 'User wants to pay for tickets');
   var response = trySettingUpTransaction(7);
 
-  if (!response) return({'error': 'error'});
+  if (!response) {
+    $fh.log('error', 'Could not set up payment.');
+    return ({'error': 'error'});
+  }
 
-  $fh.log('debug', response.body);
-  return({'response': decodePayPalResponse(response)});
+  $fh.log('debug', 'PayPal server responds with: ' + response.body);
+  var decoded = decodePayPalResponse(response);
+  return ({redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
 }
 
 function oldPayment() {

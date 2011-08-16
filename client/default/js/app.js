@@ -1,32 +1,14 @@
 //For JSLint
 /* global $, $fh, window */
 
-/*
- * Translates strings like %2d to their ASCII equivalents (dash in this case)
- */
-var replaceAsciiHexCodeWithActualCharacter = function (str) {
-  return String.fromCharCode(parseInt(str.substr(1), 16));
-};
-
-/*
- * Example PayPal response is "TOKEN=EC%2d8F209971RX095473U&TIMESTAMP=2011%2d08%2d03T16%3a38%3a20Z&CORRELATIONID=6befc7bb32e04&ACK=Success&VERSION=63%2e0&BUILD=2020243"
- * We want to decode it into JavaScript object for more convenient access.
- *
- * In order to do so, we:
- * 1. Split string on &
- * 2. Split each element on =
- * 3. Restore escaped ASCII sequences
- */
-var decodePayPalResponse = function (response) {
-  var decoded = {};
-  response
-    .split('&')
-    .map(function (keyval) {
-      return keyval.split('=');
-    }).forEach(function (pair) {
-      decoded[pair[0]] = pair[1].replace(/%[A-Za-z0-9]{2}/g, replaceAsciiHexCodeWithActualCharacter);
-    });
-  return decoded;
+var checkOutWithPayPal = function () {
+  $fh.act({
+    act: 'pSetPayment',
+    req: {}
+  }, function(response) {
+    //$("#payPalFrame iframe").attr('src', redirectUrl);
+    window.location = response.redirectUrl;
+  });
 };
 
 var checkOutWithPayPal2 = function () {
@@ -43,11 +25,11 @@ var checkOutWithPayPal2 = function () {
   });
 };
 
-var checkOutWithPayPal = function () {
+var checkOutWithPayPal7 = function () {
   $fh.act({
     act: 'pFetchConfig',
     req: {}
-  }, function(response1) {
+  }, function (response1) {
     var requestParams = response1.config;
 
     $fh.web({
@@ -81,7 +63,7 @@ var checkOutWithPayPal = function () {
 
     });
   });
-}
+};
 
 var checkOutWithPayPal7 = function () {
 
