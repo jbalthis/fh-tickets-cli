@@ -9,6 +9,7 @@ function trySettingUpTransaction(triesLeft) {
 
   $fh.log('debug', 't1');
   $fh.log('debug', requestParams);
+  $fh.log('debug', typeof(requestParams));
   $fh.log('debug', 't9');
 
   var response = $fh.web({
@@ -26,6 +27,7 @@ function trySettingUpTransaction(triesLeft) {
     $fh.log('debug', 'tak na wszelki wypadek ' + res);
   });
 
+  $fh.log('debug', typeof(response));
   $fh.log('debug', 'reaponse: ' + response);
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
