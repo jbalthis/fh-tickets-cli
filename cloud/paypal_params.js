@@ -61,6 +61,6 @@ var tryCommunicatingWithPayPal = function(params, triesLeft) {
     period: 4000
   });
 
-  return (response.body ? response : tryCommunicatingWithPayPal(params, triesLeft - 1));
+  return (response.body ? response.body : tryCommunicatingWithPayPal(params, triesLeft - 1));
 };
 
