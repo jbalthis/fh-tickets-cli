@@ -7,6 +7,8 @@ function trySettingUpTransaction(triesLeft) {
     {name: 'METHOD', value: "SetExpressCheckout"}
   ].concat(prepareTransactionDetails );
 
+  $fh.log('debug', $fh.stringify(makeApiParams(requestParams)));
+
   var response = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
     method: 'POST',
