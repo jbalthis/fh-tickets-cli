@@ -20,9 +20,11 @@ function trySettingUpTransaction(triesLeft) {
     cookies: [
     ],
     period: 4000
+  }, function(res) {
+    $fh.log('debug', 'tak na wszelki wypadek ' + res);
   });
 
-  $fh.log('debug', $fh.stringify(response));
+  $fh.log('debug', response);
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
