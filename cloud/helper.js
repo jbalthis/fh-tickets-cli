@@ -7,12 +7,7 @@ function trySettingUpTransaction(triesLeft) {
     {name: 'METHOD', value: "SetExpressCheckout"}
   ].concat(priceParams()).concat(API_STD_PARAMS);
 
-  $fh.log('debug', 't1');
   $fh.log('debug', requestParams);
-  $fh.log('debug', $fh.stringify(requestParams));
-  $fh.log('debug', requestParams.length);
-  $fh.log('debug', typeof(requestParams));
-  $fh.log('debug', 't9');
 
   var response = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
@@ -25,8 +20,8 @@ function trySettingUpTransaction(triesLeft) {
     period: 4000
   });
 
-  $fh.log('debug', typeof(response));
   $fh.log('debug', 'reaponse: ' + response);
+  $fh.log('debug', 'reaponse: ' + $fh.stringify(response));
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
