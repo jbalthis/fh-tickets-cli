@@ -22,7 +22,7 @@ function trySettingUpTransaction(triesLeft) {
     period: 4000
   });
 
-  $fh.log('debug', 'aaa');
+  $fh.log('debug', $fh.stringify(response));
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
