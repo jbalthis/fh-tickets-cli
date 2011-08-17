@@ -3,7 +3,7 @@ function trySettingUpTransaction(triesLeft) {
 
   $fh.log('debug', 't1');
   $fh.log('debug', API_STD_PARAMS);
-  $fh.log('debug', prepareTransationDetails);
+  $fh.log('debug', priceParams);
   $fh.log('debug', 't9');
 
   var requestParams = [
