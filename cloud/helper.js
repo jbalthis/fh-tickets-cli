@@ -20,6 +20,7 @@ function trySettingUpTransaction(triesLeft) {
     period: 4000
   });
 
+  $fh.log('debug', 'aaa');
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
 }
 
