@@ -86,7 +86,7 @@ function pSetPayment() {
   if (!response) { failWithMessage('Timeouts.'); }
 
   var decoded = decodePayPalResponse(response.body);
-  $fh.log('debug', 'PayPal server responds with: ' + decoded);
+  $fh.log('debug', 'PayPal server responds with: ' + $fh.stringify(decoded));
 
   if (decoded.ACK !== 'Success') { failWithMessage('Some payment error.'); }
 
@@ -112,8 +112,29 @@ function oldPayment() {
 }
 
 function pUserAccepts() {
-  $fh.log('info', 'User decides to pay');
-  $fh.log('debug', 'Request came with params: ' + $fh.stringify($params));
+  $fh.log('debug', 'Customer has accepted the payment. Request came with params: ' + $fh.stringify($params));
+
+  var token = $params.token;
+
+  var response = $fh.web({
+    url: "https://api-3t.sandbox.paypal.com/nvp",
+    method: 'POST',
+    charset: 'UTF-8',
+    contentType: 'text/plain',
+    params: [
+      {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
+      {name: 'TOKEN', value: token}
+    ],
+    headers: [
+    ],
+    cookies: [
+    ],
+    period: 4000
+  });
+
+  $fh.log('debug', 'PayPal responded with user details: ' + $fh.stringify(response));
+  var decoded = decodePayPalResponse(response.body);
+  $fh.log('debug', 'PayPal responded with user details: ' + $fh.stringify(decoded));
 
   return {};
 }
