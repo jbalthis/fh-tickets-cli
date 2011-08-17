@@ -1,9 +1,8 @@
-/* global decodePayPalResponse:false */
+/* global decodePayPalResponse:false API_STD_PARAMS:false */
 
 function pSetPayment() {
   $fh.log('debug', 'User wants to pay for tickets');
   var response = trySettingUpTransaction(11);
-  $fh.log('debug', trySettingUpTransaction);
   $fh.log('debug', decodePayPalResponse);
 
   if (!response) {
@@ -11,7 +10,7 @@ function pSetPayment() {
     return ({'status': 'error'});
   }
 
-  $fh.log('debug', here);
+  $fh.log('debug', 'here');
 
   var decoded = decodePayPalResponse(response.body);
   $fh.log('debug', 'PayPal server responds with: ' + $fh.stringify(decoded));
@@ -35,7 +34,7 @@ function pUserAccepts() {
     method: 'POST',
     charset: 'UTF-8',
     contentType: 'text/plain',
-    params: makeApiParams([
+    params: API_STD_PARAMS.concat([
       {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
       {name: 'TOKEN', value: token}
     ]),
@@ -62,10 +61,10 @@ function pUserAccepts() {
     method: 'POST',
     charset: 'UTF-8',
     contentType: 'text/plain',
-    params: makeApiParams(prepareTransactionDetails().concat([
+    params: API_STD_PARAMS.concat(priceParams()).concat([
       {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
       {name: 'TOKEN', value: token}
-    ])),
+    ]),
     headers: [],
     cookies: [],
     period: 4000

@@ -1,3 +1,11 @@
+var API_STD_PARAMS = [
+  {name: 'VERSION', value: '63.0'},
+  {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
+  {name: 'PWD', value: "1312461375"},
+  {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
+];
+
+
 /*
  * Example PayPal response is "TOKEN=EC%2d8F209971RX095473U&TIMESTAMP=2011%2d08%2d03T16%3a38%3a20Z&CORRELATIONID=6befc7bb32e04&ACK=Success&VERSION=63%2e0&BUILD=2020243"
  * We want to decode it into JavaScript object for more convenient access.
@@ -30,20 +38,7 @@ var replaceAsciiHexCodeWithActualCharacter = function (str) {
 
 
 
-/*
- * Extends passed params for PayPal operations with credentials
- */
-var makeApiParams = function (params) {
-  var authParams = [
-    {name: 'VERSION', value: '63.0'},
-    {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
-    {name: 'PWD', value: "1312461375"},
-    {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
-  ];
-  return params.concat(authParams);
-};
-
-var prepareTransactionDetails = function () {
+var priceParams = function () {
   return [
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
     {name: 'PAYMENTREQUEST_0_AMT', value: "10"}
