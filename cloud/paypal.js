@@ -2,8 +2,17 @@ var API_STD_PARAMS = [
   {name: 'VERSION', value: '63.0'},
   {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
   {name: 'PWD', value: "1312461375"},
-  {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"},
+  {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"}
 ];
+
+
+/*
+ * Translates strings like %2d to their ASCII equivalents (dash in this case)
+ */
+var replaceAsciiHexCodeWithActualCharacter = function (str) {
+  return String.fromCharCode(parseInt(str.substr(1), 16));
+};
+
 
 
 /*
@@ -29,15 +38,6 @@ var decodePayPalResponse = function (response) {
 
 
 
-/*
- * Translates strings like %2d to their ASCII equivalents (dash in this case)
- */
-var replaceAsciiHexCodeWithActualCharacter = function (str) {
-  return String.fromCharCode(parseInt(str.substr(1), 16));
-};
-
-
-
 var priceParams = function () {
   return [
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
@@ -47,8 +47,8 @@ var priceParams = function () {
 
 
 
-var tryCommunicatingWithPayPal = function(params, triesLeft) {
-  if (triesLeft === 0) return false;
+var tryCommunicatingWithPayPal = function (params, triesLeft) {
+  if (triesLeft === 0) { return false; }
 
   var response = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
