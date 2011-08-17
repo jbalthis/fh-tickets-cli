@@ -61,6 +61,10 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
     period: 4000
   });
 
+  $fh.log('debug', response);
+  $fh.log('debug', response.body);
+  $fh.log('debug', decodePayPalResponse);
+  $fh.log('debug', decodePayPalResponse(response.body || ""));
   return (response.body ? decodePayPalResponse(response.body) : tryCommunicatingWithPayPal(params, triesLeft - 1));
 };
 
