@@ -1,3 +1,5 @@
+var priceParams, API_STD_PARAMS, tryCommunicatingWithPayPal, $params;
+
 function pSetPayment() {
   $fh.log('debug', '*****************************');
   $fh.log('debug', 'User wants to pay for tickets');
@@ -58,7 +60,7 @@ function pUserAccepts() {
 
   $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(doResponse));
 
-  if (decodedDo.ACK !== 'Success') {
+  if (doResponse.ACK !== 'Success') {
     $fh.log('error', '[CID:' + doResponse.CORRELATIONID + '] Some payment error.');
     return ({'status': 'error'});
   }
@@ -81,7 +83,7 @@ function oldPayment() {
 
   var ticketsAndPrices = [[$params.ticketsVIP, 300, "VIP Sector tickets"], [$params.ticketsA, 30, "Sector A tickets"], [$params.ticketsB, 10, "Sector B tickets"]];
 
-  ticketsAndPrices.forEach(function(index) {
+  ticketsAndPrices.forEach(function (index) {
     requestParams.push(
       {name: "L_PAYMENTREQUEST_0_NAME" + index, value: this[2]}
     );
