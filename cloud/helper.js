@@ -9,6 +9,8 @@ function trySettingUpTransaction(triesLeft) {
 
   $fh.log('debug', 't1');
   $fh.log('debug', requestParams);
+  $fh.log('debug', $fh.stringify(requestParams));
+  $fh.log('debug', requestParams.length);
   $fh.log('debug', typeof(requestParams));
   $fh.log('debug', 't9');
 
