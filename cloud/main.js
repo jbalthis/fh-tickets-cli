@@ -9,10 +9,8 @@ function pSetPayment() {
     return ({'status': 'error'});
   }
 
-  $fh.log('debug', 'here');
-
   var decoded = decodePayPalResponse(response.body);
-  $fh.log('debug', 'PayPal server responds with: ' + $fh.stringify(decoded));
+  $fh.log('debug', 'For setting up payment, PayPal server responds with: ' + $fh.stringify(decoded));
   $fh.log('debug', 'Raw was: ' + response.body);
 
   if (decoded.ACK !== 'Success') {
@@ -45,9 +43,8 @@ function pUserAccepts() {
     period: 4000
   });
 
-  $fh.log('debug', 'PayPal responded with user details: ' + $fh.stringify(responseDetails));
   var decodedDetails = decodePayPalResponse(responseDetails.body);
-  $fh.log('debug', 'PayPal responded with user details: ' + $fh.stringify(decodedDetails));
+  $fh.log('debug', 'On request of customer\' details, PayPal responded with: ' + $fh.stringify(decodedDetails));
 
   if (decodedDetails.ACK !== 'Success') {
     $fh.log('error', '[CID:' + decodedDetails.CORRELATIONID + '] Some payment error.');
@@ -71,7 +68,7 @@ function pUserAccepts() {
   });
 
   var decodedDo = decodePayPalResponse(responseDo.body);
-  $fh.log('debug', 'PayPal responded to finalization request: ' + $fh.stringify(decodedDo));
+  $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(decodedDo));
 
   if (decodedDo.ACK !== 'Success') {
     $fh.log('error', '[CID:' + decodedDo.CORRELATIONID + '] Some payment error.');
