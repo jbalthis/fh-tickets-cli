@@ -1,4 +1,4 @@
-var trySettingUpTransaction = function (triesLeft) {
+function trySettingUpTransaction(triesLeft) {
   if (triesLeft === 0) return false;
 
   var requestParams = [
@@ -21,5 +21,5 @@ var trySettingUpTransaction = function (triesLeft) {
   });
 
   return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
-};
+}
 

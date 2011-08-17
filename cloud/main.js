@@ -3,11 +3,15 @@
 function pSetPayment() {
   $fh.log('debug', 'User wants to pay for tickets');
   var response = trySettingUpTransaction(11);
+  $fh.log('debug', trySettingUpTransaction);
+  $fh.log('debug', decodePayPalResponse);
 
   if (!response) {
     $fh.log('error', 'Timeouts.');
     return ({'status': 'error'});
   }
+
+  $fh.log('debug', here);
 
   var decoded = decodePayPalResponse(response.body);
   $fh.log('debug', 'PayPal server responds with: ' + $fh.stringify(decoded));
