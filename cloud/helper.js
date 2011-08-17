@@ -20,13 +20,9 @@ function trySettingUpTransaction(triesLeft) {
     charset: 'UTF-8',
     contentType: 'text/plain',
     params: requestParams,
-    headers: [
-    ],
-    cookies: [
-    ],
+    headers: [],
+    cookies: [],
     period: 4000
-  }, function(res) {
-    $fh.log('debug', 'tak na wszelki wypadek ' + res);
   });
 
   $fh.log('debug', typeof(response));
