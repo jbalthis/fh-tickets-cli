@@ -10,6 +10,7 @@ function trySettingUpTransaction(triesLeft) {
 
   $fh.log('debug', 't1');
   $fh.log('debug', requestParams1);
+  $fh.log('debug', requestParams1.concat);
   $fh.log('debug', requestParams1.concat(priceParams()));
   $fh.log('debug', requestParams1.concat(priceParams()).concat(API_STD_PARAMS));
   $fh.log('debug', 't9');
