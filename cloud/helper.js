@@ -1,11 +1,6 @@
 function trySettingUpTransaction(triesLeft) {
   if (triesLeft === 0) return false;
 
-  var requestParams = [
-    {name: 'RETURNURL', value: $fh.util({'cloudUrl': 'pUserAccepts'}).cloudUrl},
-    {name: 'CANCELURL', value: $fh.util({'cloudUrl': 'pUserDenies'}).cloudUrl},
-    {name: 'METHOD', value: "SetExpressCheckout"}
-  ].concat(priceParams()).concat(API_STD_PARAMS);
 
   var response = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
@@ -18,6 +13,6 @@ function trySettingUpTransaction(triesLeft) {
     period: 4000
   });
 
-  return (response.body ? response : trySettingUpTransaction(triesLeft - 1));
+  return (response.body ? decodePayPalResponse(response.body) : trySettingUpTransaction(triesLeft - 1));
 }
 

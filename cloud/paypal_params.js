@@ -45,3 +45,22 @@ var priceParams = function () {
   ];
 };
 
+
+
+var tryCommunicatingWithPayPal = function(params, triesLeft) {
+  if (triesLeft === 0) return false;
+
+  var response = $fh.web({
+    url: "https://api-3t.sandbox.paypal.com/nvp",
+    method: 'POST',
+    charset: 'UTF-8',
+    contentType: 'text/plain',
+    params: params,
+    headers: [],
+    cookies: [],
+    period: 4000
+  });
+
+  return (response.body ? response : tryCommunicatingWithPayPal(params, triesLeft - 1));
+};
+

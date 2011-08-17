@@ -1,83 +1,69 @@
-/* global decodePayPalResponse:false API_STD_PARAMS:false */
-
 function pSetPayment() {
+  $fh.log('debug', '*****************************');
   $fh.log('debug', 'User wants to pay for tickets');
-  var response = trySettingUpTransaction(11);
+
+  var requestParams = [
+    {name: 'RETURNURL', value: $fh.util({'cloudUrl': 'pUserAccepts'}).cloudUrl},
+    {name: 'CANCELURL', value: $fh.util({'cloudUrl': 'pUserDenies'}).cloudUrl},
+    {name: 'METHOD', value: "SetExpressCheckout"}
+  ].concat(priceParams()).concat(API_STD_PARAMS);
+
+  var response = tryCommunicatingWithPayPal(requestParams, 9);
 
   if (!response) {
     $fh.log('error', 'Timeouts.');
     return ({'status': 'error'});
   }
 
-  var decoded = decodePayPalResponse(response.body);
-  $fh.log('debug', 'For setting up payment, PayPal server responds with: ' + $fh.stringify(decoded));
-  $fh.log('debug', 'Raw was: ' + response.body);
+  $fh.log('debug', 'For setting up payment, PayPal server responds with: ' + $fh.stringify(response));
 
-  if (decoded.ACK !== 'Success') {
-    $fh.log('error', '[CID:' + json.CORRELATIONID + '] Some payment error.');
+  if (response.ACK !== 'Success') {
+    $fh.log('error', '[CID:' + response.CORRELATIONID + '] Some payment error.');
     return ({'status': 'error'});
   }
 
-  return ({'status': 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + decoded.TOKEN});
+  return ({'status': 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + response.TOKEN});
 }
 
 
 function pUserAccepts() {
+  $fh.log('debug', '*****************************');
   $fh.log('debug', 'Customer has accepted the payment. Request came with params: ' + $fh.stringify($params));
 
   var token = $params.token;
   var payerID = $params.PayerID;
 
-  var responseDetails = $fh.web({
-    url: "https://api-3t.sandbox.paypal.com/nvp",
-    method: 'POST',
-    charset: 'UTF-8',
-    contentType: 'text/plain',
-    params: API_STD_PARAMS.concat([
-      {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
-      {name: 'TOKEN', value: token}
-    ]),
-    headers: [
-    ],
-    cookies: [
-    ],
-    period: 4000
-  });
+  var detailsParams = API_STD_PARAMS.concat([
+    {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
+    {name: 'TOKEN', value: token}
+  ]);
+  var detailsResponse = tryCommunicatingWithPayPal(detailsParams, 9);
 
-  var decodedDetails = decodePayPalResponse(responseDetails.body);
-  $fh.log('debug', 'On request of customer\' details, PayPal responded with: ' + $fh.stringify(decodedDetails));
+  $fh.log('debug', 'On request of customer\' details, PayPal responded with: ' + $fh.stringify(detailsResponse));
 
-  if (decodedDetails.ACK !== 'Success') {
-    $fh.log('error', '[CID:' + decodedDetails.CORRELATIONID + '] Some payment error.');
+  if (detailsResponse.ACK !== 'Success') {
+    $fh.log('error', '[CID:' + detailsResponse.CORRELATIONID + '] Some payment error.');
     return ({'status': 'error'});
   }
 
   $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
 
-  var responseDo = $fh.web({
-    url: "https://api-3t.sandbox.paypal.com/nvp",
-    method: 'POST',
-    charset: 'UTF-8',
-    contentType: 'text/plain',
-    params: API_STD_PARAMS.concat(priceParams()).concat([
-      {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
-      {name: 'PAYERID', value: payerID},
-      {name: 'TOKEN', value: token}
-    ]),
-    headers: [],
-    cookies: [],
-    period: 4000
-  });
+  var doParams = API_STD_PARAMS.concat(priceParams()).concat([
+    {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
+    {name: 'PAYERID', value: payerID},
+    {name: 'TOKEN', value: token}
+  ]);
 
-  var decodedDo = decodePayPalResponse(responseDo.body);
-  $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(decodedDo));
+  var doResponse = tryCommunicatingWithPayPal(doParams, 9);
+
+  $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(doResponse));
 
   if (decodedDo.ACK !== 'Success') {
-    $fh.log('error', '[CID:' + decodedDo.CORRELATIONID + '] Some payment error.');
+    $fh.log('error', '[CID:' + doResponse.CORRELATIONID + '] Some payment error.');
     return ({'status': 'error'});
   }
 
-  $fh.log('info', '[CID:' + decodedDetails.CORRELATIONID + '] And the buyer is ' + decodedDetails.FIRSTNAME + ' ' + decodedDetails.LASTNAME);
+  $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + detailsResponse.FIRSTNAME + ' ' + detailsResponse.LASTNAME);
 
   return {'body': 'a'};
 }
