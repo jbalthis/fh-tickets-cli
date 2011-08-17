@@ -26,6 +26,7 @@ function pUserAccepts() {
   $fh.log('debug', 'Customer has accepted the payment. Request came with params: ' + $fh.stringify($params));
 
   var token = $params.token;
+  var payerID = $params.PayerID;
 
   var responseDetails = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
@@ -60,6 +61,7 @@ function pUserAccepts() {
     contentType: 'text/plain',
     params: API_STD_PARAMS.concat(priceParams()).concat([
       {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
+      {name: 'PAYERID', value: payerID},
       {name: 'TOKEN', value: token}
     ]),
     headers: [],
@@ -77,7 +79,7 @@ function pUserAccepts() {
 
   $fh.log('info', '[CID:' + decodedDetails.CORRELATIONID + '] And the buyer is ' + decodedDetails.FIRSTNAME + ' ' + decodedDetails.LASTNAME);
 
-  return {};
+  return {'body': 'a'};
 }
 
 function pUserDenies() {
