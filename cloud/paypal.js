@@ -46,7 +46,7 @@ var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
   var params = [
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
     {name: 'PAYMENTREQUEST_0_AMT', value: ticketsVIP * priceVIP + ticketsA * priceA + ticketsB * priceB},
-    {name: "L_PAYMENTREQUEST_0_NAME0", value: },
+    {name: "L_PAYMENTREQUEST_0_NAME0", value: "VIP Sector tickets"},
     {name: "L_PAYMENTREQUEST_0_NAME1", value: "Sector A tickets"},
     {name: "L_PAYMENTREQUEST_0_NAME2", value: "Sector B tickets"},
     {name: "L_PAYMENTREQUEST_0_QTY0", value: ticketsVIP},
