@@ -53,9 +53,9 @@ var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
     {name: "L_PAYMENTREQUEST_0_QTY1", value: ticketsA},
     {name: "L_PAYMENTREQUEST_0_QTY2", value: ticketsB}
   ];
-  if (ticketsVIP > 0) { params.push({name: "L_PAYMENTREQUEST_0_AMT0", value: priceVIP * ticketsVIP}); }
-  if (ticketsA > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT1", value: priceA * ticketsA}); }
-  if (ticketsB > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT2", value: priceB * ticketsB}); }
+  if (ticketsVIP > 0) { params.push({name: "L_PAYMENTREQUEST_0_AMT0", value: priceVIP}); }
+  if (ticketsA > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT1", value: priceA}); }
+  if (ticketsB > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT2", value: priceB}); }
   return params;
 };
 
