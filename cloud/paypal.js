@@ -64,7 +64,7 @@ var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
 var tryCommunicatingWithPayPal = function (params, triesLeft) {
   if (triesLeft === 0) { return false; }
 
-  $fh.log('debug', 'a');
+  $fh.log('debug', 'a + ' + $fh.stringify(params));
   var response = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
     method: 'POST',
