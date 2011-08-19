@@ -1,14 +1,15 @@
 var priceParams, API_STD_PARAMS, tryCommunicatingWithPayPal, $params;
 
 function pSetPayment() {
+
   $fh.log('debug', '*****************************');
-  $fh.log('debug', 'User wants to pay for tickets');
+  $fh.log('debug', 'User wants to pay for tickets: ' + $params.ticketsVIP + ' in VIP sector, ' + $params.ticketsA + ' in Sector A, ' + $params.ticketsB + ' in Sector B.');
 
   var requestParams = [
     {name: 'RETURNURL', value: $fh.util({'cloudUrl': 'pUserAccepts'}).cloudUrl},
     {name: 'CANCELURL', value: $fh.util({'cloudUrl': 'pUserDenies'}).cloudUrl},
     {name: 'METHOD', value: "SetExpressCheckout"}
-  ].concat(priceParams()).concat(API_STD_PARAMS);
+  ].concat(priceParams($params.ticketsVIP, $params.ticketsA, $params.ticketsB)).concat(API_STD_PARAMS);
 
   var response = tryCommunicatingWithPayPal(requestParams, 9);
 
@@ -24,6 +25,16 @@ function pSetPayment() {
     return ({'status': 'error'});
   }
 
+  if ($fh.cache({
+    act: 'save',
+    key: response.TOKEN,
+    val: $params,
+    expire: 3600
+  }).result !== 'ok') {
+    $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
+    return ({'status': 'error'});
+  }
+
   return ({'status': 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + response.TOKEN});
 }
 
@@ -35,6 +46,15 @@ function pUserAccepts() {
   var token = $params.token;
   var payerID = $params.PayerID;
 
+  var cachedParams = $fh.cache({
+    act: 'load',
+    key: response.TOKEN
+  });
+  if (cachedParams.result !== 'ok') {
+    $fh.log('error', 'Could not restore payment details from cache.');
+    return ({'status': 'error'});
+  }
+
   var detailsParams = API_STD_PARAMS.concat([
     {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
     {name: 'TOKEN', value: token}
@@ -44,13 +64,13 @@ function pUserAccepts() {
   $fh.log('debug', 'On request of customer\' details, PayPal responded with: ' + $fh.stringify(detailsResponse));
 
   if (detailsResponse.ACK !== 'Success') {
-    $fh.log('error', '[CID:' + detailsResponse.CORRELATIONID + '] Some payment error.');
+    $fh.log('error', '[CID:' + detailsResponse.CORRELATIONID + '] Some error when retrieving payment details.');
     return ({'status': 'error'});
   }
 
   $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
 
-  var doParams = API_STD_PARAMS.concat(priceParams()).concat([
+  var doParams = API_STD_PARAMS.concat(priceParams(cachedParams.ticketsVIP, cachedParams.ticketsA, cachedParams.ticketsB)).concat([
     {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
     {name: 'PAYERID', value: payerID},
     {name: 'TOKEN', value: token}
@@ -61,7 +81,7 @@ function pUserAccepts() {
   $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(doResponse));
 
   if (doResponse.ACK !== 'Success') {
-    $fh.log('error', '[CID:' + doResponse.CORRELATIONID + '] Some payment error.');
+    $fh.log('error', '[CID:' + doResponse.CORRELATIONID + '] Some payment error when trying to complete payment.');
     return ({'status': 'error'});
   }
 
@@ -73,27 +93,5 @@ function pUserAccepts() {
 function pUserDenies() {
   $fh.log('info', 'User denies to pay');
   return {};
-}
-
-
-/****/
-
-
-function oldPayment() {
-
-  var ticketsAndPrices = [[$params.ticketsVIP, 300, "VIP Sector tickets"], [$params.ticketsA, 30, "Sector A tickets"], [$params.ticketsB, 10, "Sector B tickets"]];
-
-  ticketsAndPrices.forEach(function (index) {
-    requestParams.push(
-      {name: "L_PAYMENTREQUEST_0_NAME" + index, value: this[2]}
-    );
-    requestParams.push(
-      {name: "L_PAYMENTREQUEST_0_QTY" + index, value: this[0]}
-    );
-    if (this[0] > 0) {
-      requestParams.push({name: "L_PAYMENTREQUEST_0_AMT" + index, value: this[1]});
-    }
-  });
-
 }
 

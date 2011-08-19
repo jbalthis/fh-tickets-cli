@@ -5,6 +5,10 @@ var API_STD_PARAMS = [
   {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"}
 ];
 
+var priceVIP = 300;
+var priceA = 30;
+var priceB = 10;
+
 
 /*
  * Translates strings like %2d to their ASCII equivalents (dash in this case)
@@ -38,11 +42,21 @@ var decodePayPalResponse = function (response) {
 
 
 
-var priceParams = function () {
-  return [
+var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
+  var params = [
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
-    {name: 'PAYMENTREQUEST_0_AMT', value: "10"}
+    {name: 'PAYMENTREQUEST_0_AMT', value: ticketsVIP * priceVIP + ticketsA * priceA + ticketsB * priceB},
+    {name: "L_PAYMENTREQUEST_0_NAME0", value: },
+    {name: "L_PAYMENTREQUEST_0_NAME1", value: "Sector A tickets"},
+    {name: "L_PAYMENTREQUEST_0_NAME2", value: "Sector B tickets"},
+    {name: "L_PAYMENTREQUEST_0_QTY0", value: ticketsVIP},
+    {name: "L_PAYMENTREQUEST_0_QTY1", value: ticketsA},
+    {name: "L_PAYMENTREQUEST_0_QTY2", value: ticketsB}
   ];
+  if (ticketsVIP > 0) { params.push({name: "L_PAYMENTREQUEST_0_AMT0", value: priceVIP * ticketsVIP}); }
+  if (ticketsA > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT1", value: priceA * ticketsA}); }
+  if (ticketsB > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT2", value: priceB * ticketsB}); }
+  return params;
 };
 
 
