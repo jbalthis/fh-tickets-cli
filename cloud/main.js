@@ -54,6 +54,7 @@ function pUserAccepts() {
     $fh.log('error', 'Could not restore payment details from cache.');
     return ({'status': 'error'});
   }
+  $fh.log('debug', 'Cache was: ' + $fh.stringify(cachedParams));
 
   var detailsParams = API_STD_PARAMS.concat([
     {name: 'METHOD', value: 'GetExpressCheckoutDetails'},

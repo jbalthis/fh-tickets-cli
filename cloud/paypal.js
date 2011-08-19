@@ -56,6 +56,7 @@ var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
   if (ticketsVIP > 0) { params.push({name: "L_PAYMENTREQUEST_0_AMT0", value: priceVIP}); }
   if (ticketsA > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT1", value: priceA}); }
   if (ticketsB > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT2", value: priceB}); }
+  $fh.log('debug', 'params: ' + $fh.stringify(params));
   return params;
 };
 
