@@ -48,7 +48,7 @@ function pUserAccepts() {
 
   var cachedParams = $fh.cache({
     act: 'load',
-    key: response.TOKEN
+    key: token
   });
   if (cachedParams.result !== 'ok') {
     $fh.log('error', 'Could not restore payment details from cache.');
