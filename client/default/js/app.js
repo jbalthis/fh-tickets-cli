@@ -18,6 +18,7 @@ var checkOutWithPayPal = function () {
       window.location = response.redirectUrl;
     }
   });
+  return false;
 };
 
 $(function () {
