@@ -75,7 +75,11 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
     period: 4000
   });
 
-  $fh.log('debug', '...Communication failed.');
-  return (response.body ? decodePayPalResponse(response.body) : tryCommunicatingWithPayPal(params, triesLeft - 1));
+  if (response.body) {
+    return decodePayPalResponse(response.body);
+  } else {
+    $fh.log('debug', '...Communication failed. Trying ' + triesLeft + ' more times.');
+    return tryCommunicatingWithPayPal(params, triesLeft - 1);
+  }
 };
 
