@@ -54,13 +54,12 @@ function pUserAccepts() {
     act: 'load',
     key: token
   });
-  $fh.log('debug', 'Cache was: ' + $fh.stringify(cachedParams));
   if (cachedParams.result !== 'ok') {
     $fh.log('error', 'Could not restore payment details from cache.');
     return ({'status': 'error'});
   }
-  var cachedParamsSplitted = cachedParams.val.split(',');
   var
+    cachedParamsSplitted = cachedParams.val.split(','),
     ticketsVIP = cachedParamsSplitted[0],
     ticketsA = cachedParamsSplitted[1],
     ticketsB = cachedParamsSplitted[2];
