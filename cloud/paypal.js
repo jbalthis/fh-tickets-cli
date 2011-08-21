@@ -1,5 +1,5 @@
 var API_STD_PARAMS = [
-  {name: 'VERSION', value: '63.0'},
+  {name: 'VERSION', value: '74.0'},
   {name: 'USER', value: "skalee_1312461335_biz_api1.gmail.com"},
   {name: 'PWD', value: "1312461375"},
   {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"}
