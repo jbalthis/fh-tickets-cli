@@ -97,7 +97,7 @@ function pUserAccepts() {
 
   $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + detailsResponse.FIRSTNAME + ' ' + detailsResponse.LASTNAME);
 
-  return {'body': 'a'};
+  return selfClosing();
 }
 
 function pUserDenies() {
