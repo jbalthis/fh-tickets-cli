@@ -78,7 +78,7 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
   if (response.body) {
     return decodePayPalResponse(response.body);
   } else {
-    $fh.log('debug', '...Communication failed. Trying ' + triesLeft + ' more times.');
+    $fh.log('debug', '...Communication failed. Trying ' + (triesLeft - 1) + ' more times.');
     return tryCommunicatingWithPayPal(params, triesLeft - 1);
   }
 };
