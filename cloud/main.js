@@ -32,7 +32,7 @@ function pSetPayment() {
   if ($fh.cache({
     act: 'save',
     key: response.TOKEN,
-    val: [ticketsVIP, ticketsA, ticketsB].join(',')
+    val: [ticketsVIP, ticketsA, ticketsB].join(','),
     expire: 3600
   }).result !== 'ok') {
     $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
