@@ -59,7 +59,7 @@ function pUserAccepts() {
     $fh.log('error', 'Could not restore payment details from cache.');
     return ({'status': 'error'});
   }
-  var cachedParamsSplitted = cachedParams.value.split(',');
+  var cachedParamsSplitted = cachedParams.val.split(',');
   var
     ticketsVIP = cachedParamsSplitted[0],
     ticketsA = cachedParamsSplitted[1],
