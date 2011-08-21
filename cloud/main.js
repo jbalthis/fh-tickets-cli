@@ -3,13 +3,17 @@ var priceParams, API_STD_PARAMS, tryCommunicatingWithPayPal, $params;
 function pSetPayment() {
 
   $fh.log('debug', '*****************************');
-  $fh.log('debug', 'User wants to pay for tickets: ' + $params.ticketsVIP + ' in VIP sector, ' + $params.ticketsA + ' in Sector A, ' + $params.ticketsB + ' in Sector B.');
+  var
+    ticketsVIP = $params.ticketsVIP,
+    ticketsA = $params.ticketsA,
+    ticketsB = $params.ticketsB;
+  $fh.log('debug', 'User wants to pay for following tickets: ' + ticketsVIP + ' to VIP sector, ' + ticketsA + ' to Sector A, ' + ticketsB + ' to Sector B.');
 
   var requestParams = [
     {name: 'RETURNURL', value: $fh.util({'cloudUrl': 'pUserAccepts'}).cloudUrl},
     {name: 'CANCELURL', value: $fh.util({'cloudUrl': 'pUserDenies'}).cloudUrl},
     {name: 'METHOD', value: "SetExpressCheckout"}
-  ].concat(priceParams($params.ticketsVIP, $params.ticketsA, $params.ticketsB)).concat(API_STD_PARAMS);
+  ].concat(priceParams(ticketsVIP, ticketsA, ticketsB)).concat(API_STD_PARAMS);
 
   var response = tryCommunicatingWithPayPal(requestParams, 9);
 
@@ -28,7 +32,7 @@ function pSetPayment() {
   if ($fh.cache({
     act: 'save',
     key: response.TOKEN,
-    val: $params,
+    val: [ticketsVIP, ticketsA, ticketsB].join(',')
     expire: 3600
   }).result !== 'ok') {
     $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
@@ -54,7 +58,12 @@ function pUserAccepts() {
     $fh.log('error', 'Could not restore payment details from cache.');
     return ({'status': 'error'});
   }
-  $fh.log('debug', 'Cache was: ' + $fh.stringify(cachedParams));
+  var cachedParamsSplitted = cachedParams.value.split(',');
+  var
+    ticketsVIP = cachedParamsSplitted[0],
+    ticketsA = cachedParamsSplitted[1],
+    ticketsB = cachedParamsSplitted[2];
+  $fh.log('debug', 'Cache was: ' + $fh.stringify(cachedParamsSplitted));
 
   var detailsParams = API_STD_PARAMS.concat([
     {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
@@ -71,7 +80,7 @@ function pUserAccepts() {
 
   $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
 
-  var doParams = API_STD_PARAMS.concat(priceParams(cachedParams.ticketsVIP, cachedParams.ticketsA, cachedParams.ticketsB)).concat([
+  var doParams = API_STD_PARAMS.concat(priceParams(ticketsVIP, ticketsA, ticketsB)).concat([
     {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
     {name: 'PAYERID', value: payerID},
     {name: 'TOKEN', value: token}
