@@ -1,4 +1,4 @@
-var priceParams, API_STD_PARAMS, tryCommunicatingWithPayPal, $params;
+//var priceParams, API_STD_PARAMS, tryCommunicatingWithPayPal, $params;
 
 function pSetPayment() {
 
@@ -102,6 +102,6 @@ function pUserAccepts() {
 
 function pUserDenies() {
   $fh.log('info', 'User denies to pay');
-  return {};
+  return {'status': 200, body: selfClosing()};
 }
 
