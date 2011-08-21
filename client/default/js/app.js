@@ -2,6 +2,10 @@
 /* global $, $fh, window */
 
 var checkOutWithPayPal = function () {
+  if ($('input[name=VIP]').val() + $('input[name=SectorA]').val() + $('input[name=SectorB]').val() < 1) {
+    alert('Pick at least one ticket.');
+    return false;
+  }
   $fh.act({
     act: 'pSetPayment',
     req: {
