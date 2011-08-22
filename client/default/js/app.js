@@ -12,8 +12,8 @@ var checkOutWithPayPal = function () {
     }
   }, function(response) {
     if (response.status == 'ok') {
-      $fh.webview({'url': response.redirectUrl, 'title': null});
-      //window.location = response.redirectUrl;
+      //$fh.webview({'url': response.redirectUrl, 'title': null});
+      window.location = response.redirectUrl;
     }
   });
   return false;
