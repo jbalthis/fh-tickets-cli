@@ -75,6 +75,7 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
     period: 4000
   });
 
+  $fh.log('debug', '%%%%' + JSON);
   $fh.log('debug', '%%%%' + JSON.stringify);
   $fh.log('debug', '%%%%' + JSON.stringify(response));
   if (response.body) {
