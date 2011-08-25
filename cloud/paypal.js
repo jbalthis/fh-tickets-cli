@@ -75,7 +75,8 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
     period: 4000
   });
 
-  $fh.log('debug', '%%%%' + $fh.serialize(response));
+  $fh.log('debug', '%%%%' + JSON.stringify);
+  $fh.log('debug', '%%%%' + JSON.stringify(response));
   if (response.body) {
     return decodePayPalResponse(response.body);
   } else {
