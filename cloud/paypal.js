@@ -77,20 +77,8 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
   });
 
   $fh.log('debug', '=======');
-  $fh.log('debug', params);
-  $fh.log('debug', '=======');
+  $fh.log('debug', params.filter(function(x) { x.name == 'METHOD' });
   $fh.log('debug', response);
-  $fh.log('debug', '=======');
-  $fh.log('debug', '=======');
-  $fh.log('debug', 'aaa');
-  for (x in response) {
-    $fh.log('debug', 'aaa' + x);
-    $fh.log('debug', 'aaa' + x + '::::' + response[x]);
-  }
-  $fh.log('debug', 'aaa');
-  //$fh.log('debug', '%%%%' + JSON);
-  //$fh.log('debug', '%%%%' + JSON.stringify);
-  //$fh.log('debug', '%%%%' + JSON.stringify(response));
   if (response.body) {
     return decodePayPalResponse(response.body);
   } else {
