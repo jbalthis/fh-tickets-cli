@@ -77,7 +77,7 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
   });
 
   $fh.log('debug', '=======');
-  $fh.log('debug', params.filter(function(x) { x.name == 'METHOD' });
+  $fh.log('debug', params.filter(function(x) { return (x.name == 'METHOD'); }));
   $fh.log('debug', response);
   if (response.body) {
     return decodePayPalResponse(response.body);
