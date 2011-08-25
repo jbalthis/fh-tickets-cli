@@ -1,0 +1,19 @@
+ul {
+  list-style: none;
+  padding: none;
+}
+li {
+  clear: both;
+}
+li > * {
+  display: inline-block;
+}
+li > span:first-child {
+  width: 50%;
+}
+li > span:nth-child(2) {
+}
+li > input {
+  width: 50%;
+}
+
