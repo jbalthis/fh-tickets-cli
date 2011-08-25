@@ -73,7 +73,7 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
     headers: [],
     cookies: [],
     period: 8000,
-    timeout: 8000
+    "timeout": 8000
   });
 
   $fh.log('debug', '=======');
