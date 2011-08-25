@@ -86,6 +86,8 @@ function pUserAccepts() {
     {name: 'TOKEN', value: token}
   ]);
 
+  $fh.log('debug', 'Params prepared.');
+
   var doResponse = tryCommunicatingWithPayPal(doParams, 9);
 
   $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(doResponse));
