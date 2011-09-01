@@ -1,7 +1,7 @@
 ul {
   display: table;
   list-style: none;
-  padding: none;
+  padding: 0;
 }
 li {
   display: table-row;
@@ -13,8 +13,9 @@ li > span {
   width: 30%;
 }
 li > span:nth-child(2) {
+  width: 20%;
 }
 li > input {
-  width: 40%;
+  width: 50%;
 }
 
