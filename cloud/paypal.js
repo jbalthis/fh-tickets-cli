@@ -43,19 +43,32 @@ var decodePayPalResponse = function (response) {
 
 
 var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
+  //Okay, this could be more concise, but I wanted to make it as plain and simple as possible. Even for price of redundant code.
   var params = [
     {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
-    {name: 'PAYMENTREQUEST_0_AMT', value: ticketsVIP * priceVIP + ticketsA * priceA + ticketsB * priceB},
-    {name: "L_PAYMENTREQUEST_0_NAME0", value: "VIP Sector tickets"},
-    {name: "L_PAYMENTREQUEST_0_NAME1", value: "Sector A tickets"},
-    {name: "L_PAYMENTREQUEST_0_NAME2", value: "Sector B tickets"},
-    {name: "L_PAYMENTREQUEST_0_QTY0", value: ticketsVIP},
-    {name: "L_PAYMENTREQUEST_0_QTY1", value: ticketsA},
-    {name: "L_PAYMENTREQUEST_0_QTY2", value: ticketsB}
+    {name: 'PAYMENTREQUEST_0_AMT', value: ticketsVIP * priceVIP + ticketsA * priceA + ticketsB * priceB}
   ];
-  if (ticketsVIP > 0) { params.push({name: "L_PAYMENTREQUEST_0_AMT0", value: priceVIP}); }
-  if (ticketsA > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT1", value: priceA}); }
-  if (ticketsB > 0)   { params.push({name: "L_PAYMENTREQUEST_0_AMT2", value: priceB}); }
+
+  var m = 0;
+  if (ticketsVIP > 0) {
+    params.push({name: "L_PAYMENTREQUEST_0_NAME" + m, value: "VIP Sector tickets"});
+    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + m, value: ticketsVIP});
+    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + m, value: priceVIP});
+    m++;
+  }
+  if (ticketsA > 0) {
+    params.push({name: "L_PAYMENTREQUEST_0_NAME" + m, value: "Sector A tickets"});
+    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + m, value: ticketsA});
+    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + m, value: priceA});
+    m++;
+  }
+  if (ticketsB > 0) {
+    params.push({name: "L_PAYMENTREQUEST_0_NAME" + m, value: "Sector B tickets"});
+    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + m, value: ticketsB});
+    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + m, value: priceB});
+    m++;
+  }
+
   return params;
 };
 

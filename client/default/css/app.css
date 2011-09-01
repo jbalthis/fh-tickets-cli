@@ -1,19 +1,20 @@
 ul {
+  display: table;
   list-style: none;
   padding: none;
 }
 li {
-  clear: both;
+  display: table-row;
 }
 li > * {
-  display: inline-block;
+  display: table-cell;
 }
-li > span:first-child {
-  width: 50%;
+li > span {
+  width: 30%;
 }
 li > span:nth-child(2) {
 }
 li > input {
-  width: 50%;
+  width: 40%;
 }
 
