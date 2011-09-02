@@ -29,20 +29,29 @@ function pSetPayment() {
     return ({'status': 'error'});
   }
 
-  if ($fh.cache({
-    act: 'save',
-    key: response.TOKEN,
-    val: [ticketsVIP, ticketsA, ticketsB].join(','),
-    expire: 3600
-  }).result !== 'ok') {
+  if (!saveToCache(response.TOKEN, {'ticketsVIP': ticketsVIP, 'ticketsA': ticketsA, 'ticketsB': ticketsB})) {
     $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
     return ({'status': 'error'});
   }
 
-  return ({'status': 'ok', redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + response.TOKEN});
+  return ({'status': 'ok', token: response.TOKEN, redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + response.TOKEN});
 }
 
+function pEnsureBuyerIsValid() {
+}
 
+function pFinalizeTransaction() {
+}
+
+function pUserAccepts() {
+  $fh.log('debug', '*****************************');
+  $fh.log('debug', 'Customer has accepted the payment. Request came with params: ' + $fh.stringify($params));
+
+
+  $response.setContent('<script language="javascript">window.close;</script>');
+}
+
+/*
 function pUserAccepts() {
   $fh.log('debug', '*****************************');
   $fh.log('debug', 'Customer has accepted the payment. Request came with params: ' + $fh.stringify($params));
@@ -50,10 +59,6 @@ function pUserAccepts() {
   var token = $params.token;
   var payerID = $params.PayerID;
 
-  var cachedParams = $fh.cache({
-    act: 'load',
-    key: token
-  });
   if (cachedParams.result !== 'ok') {
     $fh.log('error', 'Could not restore payment details from cache.');
     return ({'status': 'error'});
@@ -101,6 +106,7 @@ function pUserAccepts() {
 
   return selfClosing();
 }
+*/
 
 function pUserDenies() {
   $fh.log('info', 'User denies to pay');
