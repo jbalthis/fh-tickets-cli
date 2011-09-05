@@ -107,7 +107,7 @@ var saveToCache = function(token, object) {
     val: object,
     expire: 3600
   });
-  return (cacheResult.result === 'ok');
+  return (cacheResult.result == 'ok');
 };
 
 var loadFromCache = function(token) {
