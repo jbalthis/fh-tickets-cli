@@ -100,17 +100,17 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
   }
 };
 
-var saveToCache(token, object) {
+var saveToCache = function(token, object) {
   var cahceResult = $fh.cache({
     act: 'save',
     key: token,
     val: object,
     expire: 3600
   });
-  return (cacheResult.result -== 'ok');
+  return (cacheResult.result === 'ok');
 };
 
-var loadFromCache(token) {
+var loadFromCache = function(token) {
   var cached = $fh.cache({
     act: 'load',
     key: token
@@ -122,4 +122,5 @@ var loadFromCache(token) {
   } else {
     return $fh.parse(cached.val);
   }
-}
+};
+
