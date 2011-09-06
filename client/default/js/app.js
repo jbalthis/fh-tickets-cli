@@ -1,11 +1,4 @@
-var paymentFunctions = {
-  setUp: function() {
-    communicateTillSuccess('pSetPayment', {
-      ticketsVIP: $('input[name=VIP]').val(),
-      ticketsA:   $('input[name=SectorA]').val(),
-      ticketsB:   $('input[name=SectorB]').val()
-    }, this.onSetUp);
-  },
+var responseHandlers = {
   onSetUp: function(response) {
     $fh.webview({'url': response.redirectUrl, 'title': null});
     //window.location = response.redirectUrl;
@@ -39,11 +32,16 @@ var checkOutWithPayPal = function () {
     return false;
   }
 
-  paymentFunctions.setUp();
+  communicateTillSuccess('pSetPayment', {
+    ticketsVIP: $('input[name=VIP]').val(),
+    ticketsA:   $('input[name=SectorA]').val(),
+    ticketsB:   $('input[name=SectorB]').val()
+  }, responseHandlers.onSetUp);
+
   return false;
 };
 
-$(function () {
+$fh.ready(function () {
   $('#checkOutWithPayPal').click(checkOutWithPayPal);
 });
 
