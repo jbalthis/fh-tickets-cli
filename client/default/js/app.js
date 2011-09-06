@@ -1,6 +1,6 @@
 var paymentFunctions = {
   setUp: function() {
-    var setUpResponse = communicateTillSuccess('pSetPayment', {
+    communicateTillSuccess('pSetPayment', {
       ticketsVIP: $('input[name=VIP]').val(),
       ticketsA:   $('input[name=SectorA]').val(),
       ticketsB:   $('input[name=SectorB]').val()
@@ -21,15 +21,16 @@ var paymentFunctions = {
 
 var communicateTillSuccess = function(act, req, nextStep) {
   $fh.act({
-    act: 'pSetPayment',
+    act: act,
     req: req
-  }, /*jsl:ignore*/function(response) {
+  }, function(response) {
     if (response.status && response.status === 'ok') {
-      return nextStep(response); //Not very necessary, but
+      nextStep(response);
     } else {
-      return communicateTillSuccess(act, req);
+      communicateTillSuccess(act, req);
     }
-  }/*jsl:end*/);
+    return undefined;
+  });
 };
 
 var checkOutWithPayPal = function () {
