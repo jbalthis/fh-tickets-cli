@@ -76,9 +76,7 @@ var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
 
 
 
-var tryCommunicatingWithPayPal = function (params, triesLeft) {
-  if (triesLeft === 0) { return false; }
-
+var tryCommunicatingWithPayPal = function (params) {
   var response = $fh.web({
     url: "https://api-3t.sandbox.paypal.com/nvp",
     method: 'POST',
@@ -97,8 +95,7 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
   if (response.body) {
     return decodePayPalResponse(response.body);
   } else {
-    $fh.log('debug', '...Communication failed. Trying ' + (triesLeft - 1) + ' more times.');
-    return tryCommunicatingWithPayPal(params, triesLeft - 1);
+    return false;
   }
 };
 
