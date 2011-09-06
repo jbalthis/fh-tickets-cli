@@ -9,6 +9,8 @@ var priceVIP = 300;
 var priceA = 30;
 var priceB = 10;
 
+var CLOSE_WINDOW_HTML = '<!DOCTYPE html!><html><head><script language="javascript">window.close;</script></head><body></body></html>';
+
 
 /*
  * Translates strings like %2d to their ASCII equivalents (dash in this case)
@@ -132,6 +134,6 @@ var userAcceptsOrDenies = function(token, newStatus) {
   storedDetails.status = newStatus;
   saveToCache(token, storedDetails);
 
-  $response.setContent('<script language="javascript">window.close;</script>');
+  $response.setContent(CLOSE_WINDOW_HTML);
 };
 

@@ -7,8 +7,8 @@ var paymentFunctions = {
     }, this.onSetUp);
   },
   onSetUp: function(response) {
-    //$fh.webview({'url': response.redirectUrl, 'title': null});
-    window.location = response.redirectUrl;
+    $fh.webview({'url': response.redirectUrl, 'title': null});
+    //window.location = response.redirectUrl;
   },
   onRetrieveDetails: function(response) {
     var retrieveResponse = communicateTillSuccess('pRetrievePayerDetails', {token: setUpResponse.token});
