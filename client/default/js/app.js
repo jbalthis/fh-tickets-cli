@@ -4,7 +4,7 @@ var paymentFunctions = {
       ticketsVIP: $('input[name=VIP]').val(),
       ticketsA:   $('input[name=SectorA]').val(),
       ticketsB:   $('input[name=SectorB]').val()
-    }, onSetUp);
+    }, this.onSetUp);
   },
   onSetUp: function(response) {
     //$fh.webview({'url': response.redirectUrl, 'title': null});
