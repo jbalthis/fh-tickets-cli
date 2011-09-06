@@ -1,6 +1,7 @@
 var responseHandlers = {
   onSetUp: function(response) {
-    $fh.webview({'url': response.redirectUrl, 'title': null});
+    $fh.webview({'url': response.redirectUrl, 'title': "Check out"});
+    $fh.log( {message: "WebView should be opened now."} );
     //window.location = response.redirectUrl;
   },
   onRetrieveDetails: function(response) {
