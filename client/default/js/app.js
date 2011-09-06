@@ -20,7 +20,7 @@ var communicateTillSuccess = function(act, req, nextStep) {
     if (response.status && response.status === 'ok') {
       nextStep(response);
     } else {
-      communicateTillSuccess(act, req);
+      communicateTillSuccess(act, req, nextStep);
     }
     return undefined;
   });
