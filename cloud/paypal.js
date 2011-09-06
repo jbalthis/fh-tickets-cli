@@ -101,7 +101,7 @@ var tryCommunicatingWithPayPal = function (params, triesLeft) {
 };
 
 var saveToCache = function(token, object) {
-  var cahceResult = $fh.cache({
+  var cacheResult = $fh.cache({
     act: 'save',
     key: token,
     val: object,
@@ -122,5 +122,16 @@ var loadFromCache = function(token) {
   } else {
     return $fh.parse(cached.val);
   }
+};
+
+var deleteFromCache = function(token) {
+};
+
+var userAcceptsOrDenies = function(token, newStatus) {
+  var storedDetails = loadFromCache(token);
+  storedDetails.status = newStatus;
+  saveToCache(token, storedDetails);
+
+  $response.setContent('<script language="javascript">window.close;</script>');
 };
 

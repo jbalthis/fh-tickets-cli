@@ -29,7 +29,7 @@ function pSetPayment() {
     return ({'status': 'error'});
   }
 
-  if (!saveToCache(response.TOKEN, {'ticketsVIP': ticketsVIP, 'ticketsA': ticketsA, 'ticketsB': ticketsB})) {
+  if (!saveToCache(response.TOKEN, {'ticketsVIP': ticketsVIP, 'ticketsA': ticketsA, 'ticketsB': ticketsB, 'status': 'pending'})) {
     $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
     return ({'status': 'error'});
   }
@@ -37,18 +37,75 @@ function pSetPayment() {
   return ({'status': 'ok', token: response.TOKEN, redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + response.TOKEN});
 }
 
-function pEnsureBuyerIsValid() {
+function pRetrievePayerDetails() {
+  var token = $params.token;
+  var storedDetails = loadFromCache(token);
+
+  switch (storedDetails.status) {
+    case 'accepted':
+      var detailsParams = API_STD_PARAMS.concat([
+        {name: 'METHOD', value: 'GetExpressCheckoutDetails'},
+        {name: 'TOKEN', value: token}
+      ]);
+      var detailsResponse = tryCommunicatingWithPayPal(detailsParams, 9);
+
+      $fh.log('debug', 'On request of customer\' details, PayPal responded with: ' + $fh.stringify(detailsResponse));
+
+      if (detailsResponse.ACK !== 'Success') {
+        $fh.log('error', '[CID:' + detailsResponse.CORRELATIONID + '] Some error when retrieving payment details.');
+        return ({'status': 'error'});
+      }
+
+      $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
+
+      return ({status: 'ok'});
+
+    case 'cancelled':
+      return ({status: 'ok', stop: 'User cancelled'});
+
+    default:
+      return ({status: 'notYet'});
+  }
 }
 
-function pFinalizeTransaction() {
+function pFinalizePayment() {
+  var token = $params.token;
+  var storedDetails = loadFromCache(token);
+
+  var doParams = API_STD_PARAMS.concat(priceParams(storedParams.ticketsVIP, storedParams.ticketsA, storedParams.ticketsB)).concat([
+    {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
+    {name: 'PAYERID', value: storedParams.payerID},
+    {name: 'TOKEN', value: token}
+  ]);
+
+  var doResponse = tryCommunicatingWithPayPal(doParams, 9);
+
+  $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(doResponse));
+
+  if (doResponse.ACK !== 'Success') {
+    $fh.log('error', '[CID:' + doResponse.CORRELATIONID + '] Some payment error when trying to complete payment.');
+    return ({'status': 'error'});
+  }
+
+  $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + detailsResponse.FIRSTNAME + ' ' + detailsResponse.LASTNAME);
+
+  return ({status: 'ok'});
 }
 
+function pUserDenies() {
+  $fh.log('debug', '*****************************');
+  $fh.log('info', 'User denies to pay. Request came with params: ' + $fh.stringify($params));
+  var token = $params.token;
+  userAcceptsOrDenies(token, 'canceled');
+}
 function pUserAccepts() {
   $fh.log('debug', '*****************************');
   $fh.log('debug', 'Customer has accepted the payment. Request came with params: ' + $fh.stringify($params));
 
+  var token = $params.token;
+  // var payerID = $params.PayerID; // We are obtaining payerID in pRetrievePayerDetails() but you can get it also this way if you want.
 
-  $response.setContent('<script language="javascript">window.close;</script>');
+  userAcceptsOrDenies(token, 'accepted');
 }
 
 /*
@@ -108,8 +165,4 @@ function pUserAccepts() {
 }
 */
 
-function pUserDenies() {
-  $fh.log('info', 'User denies to pay');
-  return {'status': 200, body: selfClosing()};
-}
 
