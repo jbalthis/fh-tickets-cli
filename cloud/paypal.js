@@ -9,7 +9,7 @@ var priceVIP = 300;
 var priceA = 30;
 var priceB = 10;
 
-var CLOSE_WINDOW_HTML = '<!DOCTYPE html!><html><head><script language="javascript">window.close;</script></head><body></body></html>';
+var CLOSE_WINDOW_HTML = '<!DOCTYPE html><html><head><title></title><script type="text/javascript">window.close();</script></head><body></body></html>';
 
 
 /*

@@ -2,7 +2,6 @@ var responseHandlers = {
   onSetUp: function(response) {
     var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
     $fh.webview(webviewParams);
-    $fh.log( {message: "WebView should be opened now. " + $fh.stringify(webviewParams)} );
   },
   onRetrieveDetails: function(response) {
     var retrieveResponse = communicateTillSuccess('pRetrievePayerDetails', {token: setUpResponse.token});
