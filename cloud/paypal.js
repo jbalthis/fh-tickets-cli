@@ -130,7 +130,8 @@ var userAcceptsOrDenies = function(token, newStatus) {
   var storedDetails = loadFromCache(token);
   storedDetails.status = newStatus;
   saveToCache(token, storedDetails);
-  $fh.log('debug', 'Saved = ' + $fh.stringify(storedDetails));
+  $fh.log('debug', 'Should be saved = ' + $fh.stringify(storedDetails));
+  $fh.log('debug', 'Actually saved = ' + $fh.stringify(loadFromCache(token)));
 
   $response.setContent(CLOSE_WINDOW_HTML);
 };
