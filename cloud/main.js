@@ -38,10 +38,9 @@ function pSetPayment() {
 }
 
 function pRetrievePayerDetails() {
+  $fh.log('debug', '$$$$$$$$$$');
   var token = $params.token;
-  $fh.log('debug', '$$$$$$$$$$');
   var storedDetails = loadFromCache(token);
-  $fh.log('debug', '$$$$$$$$$$');
   $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
 
   var resp = {};
