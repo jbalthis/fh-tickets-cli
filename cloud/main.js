@@ -40,6 +40,7 @@ function pSetPayment() {
 function pRetrievePayerDetails() {
   var token = $params.token;
   var storedDetails = loadFromCache(token);
+  $fh.log('Stored details = ' + $fh.stringify(storedDetails));
 
   switch (storedDetails.status) {
     case 'accepted':
