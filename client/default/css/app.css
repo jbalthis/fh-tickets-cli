@@ -22,4 +22,8 @@ li > span:nth-child(2) {
 li > input {
   width: 50%;
 }
+#spinner {
+  line-height: 24px;
+  vertical-align: middle;
+}
 
