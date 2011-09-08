@@ -127,15 +127,11 @@ var deleteFromCache = function(token) {
 };
 
 var userAcceptsOrDenies = function(token, newStatus) {
-  $fh.log('info', '1');
   var storedDetails = loadFromCache(token);
-  $fh.log('info', '1');
   storedDetails.status = newStatus;
-  $fh.log('info', '1');
   saveToCache(token, storedDetails);
-  $fh.log('info', '1');
+  $fh.log('debug', 'Saved = ' + $fh.stringify(storedDetails));
 
   $response.setContent(CLOSE_WINDOW_HTML);
-  $fh.log('info', '2');
 };
 
