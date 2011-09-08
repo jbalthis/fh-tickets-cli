@@ -44,6 +44,7 @@ function pRetrievePayerDetails() {
   $fh.log('debug', '$$$$$$$$$$');
   $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
 
+  var resp = {};
   switch (storedDetails.status) {
     case 'accepted':
       var detailsParams = API_STD_PARAMS.concat([
@@ -61,16 +62,20 @@ function pRetrievePayerDetails() {
 
       $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
 
-      return ({status: 'ok'});
+      resp = ({status: 'ok'});
+      break;
 
     case 'cancelled':
-      return ({status: 'ok', stop: 'User cancelled'});
+      resp = ({status: 'ok', stop: 'User cancelled'});
+      break;
 
     default:
       $fh.log('debug', "Returning error.");
-      return ({status: 'error'});
+      resp = ({status: 'error'});
       //return ({status: 'error', delay: 10000});
+      break;
   }
+  return resp;
 }
 
 function pFinalizePayment() {
