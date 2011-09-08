@@ -39,6 +39,7 @@ function pSetPayment() {
 
 function pRetrievePayerDetails() {
   var token = $params.token;
+  $fh.log('debug', '$$$$$$$$$$');
   var storedDetails = loadFromCache(token);
   $fh.log('debug', '$$$$$$$$$$');
   $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
@@ -66,7 +67,7 @@ function pRetrievePayerDetails() {
       return ({status: 'ok', stop: 'User cancelled'});
 
     default:
-      return ({status: 'error', delay: 2000});
+      return ({status: 'error', delay: 10000});
   }
 }
 

@@ -115,6 +115,7 @@ var loadFromCache = function(token) {
     key: token
   });
 
+  $fh.log('debug', '##########');
   if (cached.result !== 'ok') {
     $fh.log('warn', 'Could not restore payment details from cache.');
     return null;
