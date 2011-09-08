@@ -1,14 +1,10 @@
-var responseHandlers = {
-  onSetUp: function(response) {
-    var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
-    $fh.webview(webviewParams);
-  },
-  onRetrieveDetails: function(response) {
-    var retrieveResponse = communicateTillSuccess('pRetrievePayerDetails', {token: setUpResponse.token});
-    var finalizeResponse = communicateTillSuccess('pFinalizePayment', {token: setUpResponse.token});
-  alert ('done.');
-  },
-  onFinalize: function(response) {
+var waitingFor = function(msg) {
+  var spinner = $('#spinner');
+  if (msg) {
+    spinner.find('span').text(msg);
+    spinner.show();
+  } else {
+    spinner.hide();
   }
 };
 
@@ -19,11 +15,35 @@ var communicateTillSuccess = function(act, req, nextStep) {
   }, function(response) {
     if (response.status && response.status === 'ok') {
       nextStep(response);
+    } else if (response.delay) {
+      setTimeout(function() { communicateTillSuccess(act, req, nextStep); }, response.delay);
     } else {
       communicateTillSuccess(act, req, nextStep);
     }
     return undefined;
   });
+};
+
+var responseHandlers = {
+  onSetUp: function(response) {
+    var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
+    $fh.webview(webviewParams);
+    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+    waitingFor("Waiting for user's decision…");
+    //if (interval) {
+    //  clearInterval(interval);
+    //}
+    //var checkPaymentStatusForToken = function() { communicateTillSuccess('pRetrievePayerDetails', {token: setUpResponse.token}, responseHandlers.onRetrieveDetails); };
+    //interval = setInterval(checkPaymentStatusForToken, 1000);
+  },
+  onRetrieveDetails: function(response) {
+    var finalizeResponse = communicateTillSuccess('pFinalizePayment', {token: setUpResponse.token});
+    waitingFor("Finalizing payment…");
+  },
+  onFinalize: function(response) {
+    alert ('done.');
+    waitingFor(false);
+  }
 };
 
 var checkOutWithPayPal = function () {
@@ -38,6 +58,7 @@ var checkOutWithPayPal = function () {
     ticketsB:   $('input[name=SectorB]').val()
   }, responseHandlers.onSetUp);
 
+  waitingFor("Setting up payment…");
   return false;
 };
 

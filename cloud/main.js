@@ -64,7 +64,7 @@ function pRetrievePayerDetails() {
       return ({status: 'ok', stop: 'User cancelled'});
 
     default:
-      return ({status: 'notYet'});
+      return ({status: 'error', delay: 2000});
   }
 }
 
