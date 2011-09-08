@@ -1,7 +1,7 @@
 var waitingFor = function(msg) {
   var spinner = $('#spinner');
   if (msg) {
-    spinner.find('span').text(msg);
+    spinner.find('span').html(msg);
     spinner.show();
   } else {
     spinner.hide();
