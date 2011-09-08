@@ -67,6 +67,7 @@ function pRetrievePayerDetails() {
       return ({status: 'ok', stop: 'User cancelled'});
 
     default:
+      $fh.log('debug', "Returning error.");
       return ({status: 'error'});
       //return ({status: 'error', delay: 10000});
   }
