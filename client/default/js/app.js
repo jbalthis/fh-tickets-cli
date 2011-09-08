@@ -29,7 +29,7 @@ var responseHandlers = {
     var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
     $fh.webview(webviewParams);
     communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
-    waitingFor("Waiting for user's decision…");
+    waitingFor("Waiting for user's decision&hellip;");
     //if (interval) {
     //  clearInterval(interval);
     //}
@@ -38,7 +38,7 @@ var responseHandlers = {
   },
   onRetrieveDetails: function(response) {
     var finalizeResponse = communicateTillSuccess('pFinalizePayment', {token: setUpResponse.token});
-    waitingFor("Finalizing payment…");
+    waitingFor("Finalizing payment&hellip;");
   },
   onFinalize: function(response) {
     alert ('done.');
@@ -58,7 +58,7 @@ var checkOutWithPayPal = function () {
     ticketsB:   $('input[name=SectorB]').val()
   }, responseHandlers.onSetUp);
 
-  waitingFor("Setting up payment…");
+  waitingFor("Setting up payment&hellip;");
   return false;
 };
 
