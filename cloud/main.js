@@ -76,16 +76,16 @@ function pRetrievePayerDetails() {
 
 function pFinalizePayment() {
   $fh.log('debug', '*****************************');
-  $fh.log('debug', 'Finalize Payment. Request came with params: ' + $fh.stringify($params));
+  $fh.log('debug', 'Finalizing Payment. Request came with params: ' + $fh.stringify($params));
   var token = $params.token;
   var storedDetails = loadFromCache(token);
   $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
 
-  var doParams = API_STD_PARAMS.concat(priceParams(storedParams.ticketsVIP, storedParams.ticketsA, storedParams.ticketsB)).concat([
+  var doParams = [
     {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
-    {name: 'PAYERID', value: storedParams.payerID},
+    {name: 'PAYERID', value: storedDetails.payerID},
     {name: 'TOKEN', value: token}
-  ]);
+  ].concat(priceParams(storedDetails.ticketsVIP, storedDetails.ticketsA, storedDetails.ticketsB)).concat(API_STD_PARAMS);
 
   $fh.log('debug', 'Request params: ' + $fh.stringify(doParams));
   var doResponse = tryCommunicatingWithPayPal(doParams, 9);

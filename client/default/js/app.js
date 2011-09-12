@@ -34,7 +34,7 @@ var responseHandlers = {
     waitingFor("Waiting for user's decision&hellip;");
   },
   onRetrieveDetails: function(response) {
-    var finalizeResponse = communicateTillSuccess('pFinalizePayment', {token: response.token});
+    communicateTillSuccess('pFinalizePayment', {token: response.token}, responseHandlers.onFinalize);
     waitingFor("Finalizing payment&hellip;");
   },
   onFinalize: function(response) {
