@@ -38,7 +38,6 @@ function pSetPayment() {
 }
 
 function pRetrievePayerDetails() {
-  $fh.log('debug', '$$$$$$$$$$');
   var token = $params.token;
   var storedDetails = loadFromCache(token);
   $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
@@ -61,19 +60,15 @@ function pRetrievePayerDetails() {
 
       $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
 
-      resp = ({status: 'ok'});
-      break;
+      return ({status: 'ok', token: token});
 
     case 'cancelled':
-      resp = ({status: 'ok', stop: 'User cancelled'});
-      break;
+      return ({status: 'ok', stop: 'User cancelled'});
 
     default:
       $fh.log('debug', "Returning error.");
-      resp = ({status: 'error', delay: 1000});
-      break;
+      return ({status: 'error', delay: 1000});
   }
-  return resp;
 }
 
 function pFinalizePayment() {

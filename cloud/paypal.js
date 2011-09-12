@@ -11,7 +11,7 @@ var priceB = 10;
 
 var closeWindowResponse = function(response) {
   response.setContentType('text/html');
-  response.setContent('<!DOCTYPE html><html><head><title></title>' + /*<script type="text/javascript">window.close();</script>*/ '</head><body>close that.</body></html>');
+  response.setContent('<!DOCTYPE html><html><head><title></title><script type="text/javascript">window.close();</script></head><body><h1>You may close this window.</h1></body></html>');
 };
 
 
