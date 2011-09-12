@@ -30,7 +30,7 @@ var responseHandlers = {
     $fh.webview(webviewParams);
     setTimeout(function() {
       communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
-    }, 30000);
+    }, 60000);
     waitingFor("Waiting for user's decision&hellip;");
     //if (interval) {
     //  clearInterval(interval);
