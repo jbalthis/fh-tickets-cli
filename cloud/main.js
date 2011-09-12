@@ -61,7 +61,10 @@ function pRetrievePayerDetails() {
         return ({'status': 'error'});
       }
 
-      $fh.log('debug', 'We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). If everything is ok we can finalize payment now.');
+      $fh.log('debug', "We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). But we will only grab some of payer's details.");
+      storedDetails.customer = detailsResponse.FIRSTNAME + ' ' + detailsResponse.LASTNAME;
+      storedDetails.payerID = detailsResponse.PAYERID;
+      saveToCache(token, storedDetails);
 
       return ({status: 'ok', token: token});
 
