@@ -7,15 +7,15 @@ ul {
   display: table;
   list-style: none;
   padding: 0;
+  width: 100%;
 }
 li {
   display: table-row;
 }
 li > * {
   display: table-cell;
-  padding-right: 10px;
 }
-/*li > span {
+li > span {
   width: 30%;
 }
 li > span:nth-child(2) {
@@ -23,7 +23,7 @@ li > span:nth-child(2) {
 }
 li > input {
   width: 50%;
-}*/
+}
 #spinner {
   line-height: 24px;
   vertical-align: middle;
