@@ -3,6 +3,8 @@
 function pSetPayment() {
 
   $fh.log('debug', '*****************************');
+  $fh.log('debug', '*****************************');
+  $fh.log('debug', '*****************************');
   var
     ticketsVIP = $params.ticketsVIP,
     ticketsA = $params.ticketsA,
@@ -38,6 +40,8 @@ function pSetPayment() {
 }
 
 function pRetrievePayerDetails() {
+  $fh.log('debug', '*****************************');
+  $fh.log('debug', 'Retrieve Payer Details. Request came with params: ' + $fh.stringify($params));
   var token = $params.token;
   var storedDetails = loadFromCache(token);
 
@@ -71,6 +75,8 @@ function pRetrievePayerDetails() {
 }
 
 function pFinalizePayment() {
+  $fh.log('debug', '*****************************');
+  $fh.log('debug', 'Finalize Payment. Request came with params: ' + $fh.stringify($params));
   var token = $params.token;
   var storedDetails = loadFromCache(token);
   $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
@@ -81,6 +87,7 @@ function pFinalizePayment() {
     {name: 'TOKEN', value: token}
   ]);
 
+  $fh.log('debug', 'Request params: ' + $fh.stringify(doParams));
   var doResponse = tryCommunicatingWithPayPal(doParams, 9);
 
   $fh.log('debug', 'On finalization request, PayPal responded with: ' + $fh.stringify(doResponse));
