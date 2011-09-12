@@ -99,7 +99,7 @@ function pFinalizePayment() {
     return ({'status': 'error'});
   }
 
-  $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + doResponse.customer);
+  $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + storedDetails.customer);
 
   return ({status: 'ok'});
 }
