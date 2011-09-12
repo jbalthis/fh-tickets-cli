@@ -40,7 +40,6 @@ function pSetPayment() {
 function pRetrievePayerDetails() {
   var token = $params.token;
   var storedDetails = loadFromCache(token);
-  $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
 
   var resp = {};
   switch (storedDetails.status) {
@@ -74,6 +73,7 @@ function pRetrievePayerDetails() {
 function pFinalizePayment() {
   var token = $params.token;
   var storedDetails = loadFromCache(token);
+  $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
 
   var doParams = API_STD_PARAMS.concat(priceParams(storedParams.ticketsVIP, storedParams.ticketsA, storedParams.ticketsB)).concat([
     {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
