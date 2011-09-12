@@ -82,7 +82,6 @@ function pFinalizePayment() {
   $fh.log('debug', 'Finalizing Payment. Request came with params: ' + $fh.stringify($params));
   var token = $params.token;
   var storedDetails = loadFromCache(token);
-  $fh.log('debug', 'Stored details = ' + $fh.stringify(storedDetails));
 
   var doParams = [
     {name: 'METHOD', value: 'DoExpressCheckoutPayment'},
@@ -100,7 +99,7 @@ function pFinalizePayment() {
     return ({'status': 'error'});
   }
 
-  $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + detailsResponse.FIRSTNAME + ' ' + detailsResponse.LASTNAME);
+  $fh.log('info', '[CID:' + doResponse.CORRELATIONID + '] And the buyer is ' + doResponse.customer);
 
   return ({status: 'ok'});
 }
