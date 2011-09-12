@@ -28,7 +28,9 @@ var responseHandlers = {
   onSetUp: function(response) {
     var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
     $fh.webview(webviewParams);
-    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+    setTimeout(function() {
+      communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+    }, 30000);
     waitingFor("Waiting for user's decision&hellip;");
     //if (interval) {
     //  clearInterval(interval);

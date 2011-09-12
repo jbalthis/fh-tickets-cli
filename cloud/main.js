@@ -70,7 +70,7 @@ function pRetrievePayerDetails() {
 
     default:
       $fh.log('debug', "Returning error.");
-      resp = ({status: 'error', delay: 30000});
+      resp = ({status: 'error', delay: 1000});
       break;
   }
   return resp;
