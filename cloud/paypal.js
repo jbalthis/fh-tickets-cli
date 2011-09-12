@@ -92,9 +92,6 @@ var tryCommunicatingWithPayPal = function (params) {
     timeout: 8000
   });
 
-  $fh.log('debug', '=======');
-  $fh.log('debug', params.filter(function(x) { return (x.name == 'METHOD'); }));
-  $fh.log('debug', response);
   if (response.body) {
     return decodePayPalResponse(response.body);
   } else {
