@@ -28,7 +28,7 @@ function pSetPayment() {
     return ({'status': 'error'});
   }
 
-  if (!saveToCache(response.TOKEN, {'ticketsVIP': ticketsVIP, 'ticketsA': ticketsA, 'ticketsB': ticketsB, 'status': 'pending'})) {
+  if (!saveToCache(response.TOKEN, {tickets: tickets, 'status': 'pending'})) {
     $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
     return ({'status': 'error'});
   }
