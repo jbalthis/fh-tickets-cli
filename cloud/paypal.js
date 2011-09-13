@@ -65,6 +65,8 @@ var priceParams = function (tickets) {
   $fh.log('debug', Array.prototype.reduce);
   $fh.log('debug', ticketKeys.reduce);
   $fh.log('debug', ticketsToSectors.reduce);
+  $fh.log('debug', [].reduce);
+  $fh.log('debug', new Array().reduce);
   var totalPrice = ticketsToSectors
     .reduce(function(subTotal, current) { return subTotal + current.number * current.sectors.price; });
 
