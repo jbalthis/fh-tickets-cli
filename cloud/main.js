@@ -24,16 +24,16 @@ function pSetPayment() {
   $fh.log('debug', 'For setting up payment, PayPal server responds with: ' + $fh.stringify(response));
 
   if (response.ACK !== 'Success') {
-    $fh.log('error', '[CID:' + response.CORRELATIONID + '] Some payment error.');
+    $fh.log('error', '[CID:{CID}] Some payment error.'.replace('{CID}', response.CORRELATIONID));
     return ({'status': 'error'});
   }
 
   if (!saveToCache(response.TOKEN, {tickets: tickets, 'status': 'pending'})) {
-    $fh.log('error', '[CID:' + response.CORRELATIONID + '] Could not cache transaction details.');
+    $fh.log('error', '[CID:{CID}] Could not cache transaction details.'.replace('{CID}', response.CORRELATIONID));
     return ({'status': 'error'});
   }
 
-  return ({'status': 'ok', token: response.TOKEN, redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token=" + response.TOKEN});
+  return ({'status': 'ok', token: response.TOKEN, redirectUrl: "https://www.sandbox.paypal.com/uk/cgi-bin/webscr?cmd=_express-checkout-mobile&useraction=commit&token={token}".replace('{token}', response.TOKEN)});
 }
 
 function pRetrievePayerDetails() {
