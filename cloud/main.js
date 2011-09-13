@@ -7,7 +7,7 @@ function pSetPayment() {
   $fh.log('debug', '*****************************');
   var tickets = $params.tickets;
 
-  $fh.log('debug', 'User wants to pay for {VIP} tickets to VIP sector, {A} to Sector A and {B} to Sector B.'.inject({A: tickets.A, B: tickets.B, VIP: tickets.VIP}));
+  $fh.log('debug', 'User wants to pay for {VIP} tickets to VIP sector, {A} to Sector A and {B} to Sector B.'.replace('{A}', tickets.A).replace('{B}', tickets.B).replace('{VIP}', tickets.VIP));
 
   var requestParams = priceParams(tickets)
     .concat([
@@ -40,7 +40,7 @@ function pSetPayment() {
 
 function pRetrievePayerDetails() {
   $fh.log('debug', '*****************************');
-  $fh.log('debug', 'Retrieve Payer Details. Request came with params: {params}'.inject({params: $fh.stringify($params)}));
+  $fh.log('debug', 'Retrieve Payer Details. Request came with params: {params}'.replace('{params}', $fh.stringify($params)));
   var token = $params.token;
   var storedDetails = loadFromCache(token);
 
@@ -53,15 +53,17 @@ function pRetrievePayerDetails() {
       ]);
       var detailsResponse = tryCommunicatingWithPayPal(detailsParams);
 
-      $fh.log('debug', "On request for customer's details, PayPal responded with: {response}".inject({response: $fh.stringify(detailsResponse)}));
+      $fh.log('debug', "On request for customer's details, PayPal responded with: {response}".replace("{response}", $fh.stringify(detailsResponse)));
 
       if (detailsResponse.ACK !== 'Success') {
-        $fh.log('error', '[CID: {CID}] Some error when retrieving payment details.'.inject({CID: detailsResponse.CORRELATIONID}));
+        $fh.log('error', '[CID: {CID}] Some error when retrieving payment details.'.replace("{CID}", detailsResponse.CORRELATIONID));
         return ({'status': 'error'});
       }
 
       $fh.log('debug', "We could verify user details right here (for example we may be delivering our prodcuts to selected countries only). But we will only grab some of payer's details.");
-      storedDetails.customer = "{first} {last}".inject({first: detailsResponse.FIRSTNAME, last: detailsResponse.LASTNAME});
+      storedDetails.customer = "{first} {last}"
+        .replace("{first}", detailsResponse.FIRSTNAME)
+        .replace("{last}", detailsResponse.LASTNAME);
       storedDetails.payerID = detailsResponse.PAYERID;
       saveToCache(token, storedDetails);
 
@@ -92,11 +94,13 @@ function pFinalizePayment() {
   var doResponse = tryCommunicatingWithPayPal(doParams);
 
   if (doResponse.ACK !== 'Success') {
-    $fh.log('error', '[CID: {CID}] Some payment error when trying to complete payment.'.inject({CID: doResponse.CORRELATIONID}));
+    $fh.log('error', '[CID: {CID}] Some payment error when trying to complete payment.'.replace('CID', doResponse.CORRELATIONID));
     return ({'status': 'error'});
   }
 
-  $fh.log('info', '[CID: {CID}] And the buyer is {customer}'.inject({customer: storedDetails.customer, CID: doResponse.CORRELATIONID}));
+  $fh.log('info', '[CID: {CID}] And the buyer is {customer}'
+      .replace("{customer}", storedDetails.customer)
+      .replace("{CID}", doResponse.CORRELATIONID));
 
   return ({status: 'ok', customer: storedDetails.customer, tickets: storedDetails.tickets});
 }
