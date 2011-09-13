@@ -93,7 +93,7 @@ var tryCommunicatingWithPayPal = function (params) {
 
   if (response.body) {
     var decoded = decodePayPalResponse(response.body);
-    $fh.log('debug', 'PayPal responded with: {resp}'.inject({resp: $fh.stringify(decoded)}));
+    $fh.log('debug', 'PayPal responded with: {resp}'.replace("{resp}", $fh.stringify(decoded)));
     return decoded;
   } else {
     return false;
@@ -112,12 +112,6 @@ var saveToCache = function(token, object) {
   return (cacheResult.result == 'ok');
 };
 
-
-
-String.prototype.inject = function(substitutions) {
-  var substitutionKeys = Object.keys(substitutions);
-  return this.replace(/\{(\w+)\}/, function(keyWithBrackets, keyName) { return substitutions.keyName || keyWithBrackets; });
-};
 
 
 var loadFromCache = function(token) {
