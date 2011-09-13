@@ -54,7 +54,9 @@ var decodePayPalResponse = function (response) {
 
 
 var priceParams = function (tickets) {
-  var ticketKeys = Object.keys(tickets);
+  var ticketKeys = [];
+  for(k in tickets) {ticketKeys.push(k);} // Object.keys(tickets) is not supported yet.
+
   var ticketsToSectors = ticketKeys
     .filter(function(k) { return sector[k]; })
     .map(function(k) { return {number: tickets[t], sector: sectors[t]}; });
