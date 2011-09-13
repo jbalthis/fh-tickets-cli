@@ -62,7 +62,7 @@ var priceParams = function (tickets) {
     var sector = sectors[ticketKey],
         quantity = tickets[ticketKey];
 
-    if (! sector) continue;
+    if (!sector || quantity < 1) continue;
 
     params.push({name: "L_PAYMENTREQUEST_0_NAME" + n, value: sector.name});
     params.push({name: "L_PAYMENTREQUEST_0_QTY"  + n, value: quantity});
