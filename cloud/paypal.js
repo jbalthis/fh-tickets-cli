@@ -55,7 +55,7 @@ var decodePayPalResponse = function (response) {
 
 var priceParams = function (tickets) {
   var ticketKeys = [];
-  for(k in tickets) {ticketKeys.push(k);} // Object.keys(tickets) is not supported yet.
+  for(k in tickets) ticketKeys.push(k); // Object.keys(tickets) is not supported yet.
 
   var ticketsToSectors = ticketKeys
     .filter(function(k) { return sector[k]; })
@@ -67,8 +67,8 @@ var priceParams = function (tickets) {
     .map(function(item, index) { //add payment details
       return [
         {name: "L_PAYMENTREQUEST_0_NAME" + index, value: item.sector.name},
-        {name: "L_PAYMENTREQUEST_0_QTY"  + index, value: item.number},
-        {name: "L_PAYMENTREQUEST_0_AMT"  + index, value: item.sector.price}
+        {name: "L_PAYMENTREQUEST_0_QTY"  + index, value: item.number}, //quantity
+        {name: "L_PAYMENTREQUEST_0_AMT"  + index, value: item.sector.price} //item price
       ];
     })
     .concat([ //add some general params

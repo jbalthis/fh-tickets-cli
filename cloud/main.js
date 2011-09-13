@@ -1,5 +1,3 @@
-//var priceParams, API_STD_PARAMS, tryCommunicatingWithPayPal, $params;
-
 function pSetPayment() {
 
   $fh.log('debug', '*****************************');
