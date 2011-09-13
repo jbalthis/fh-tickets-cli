@@ -68,7 +68,7 @@ function pRetrievePayerDetails() {
       return ({status: 'ok', token: token});
 
     case 'cancelled':
-      return ({status: 'ok', stop: 'User cancelled payment'});
+      return ({status: 'ok', stop: 'user refused to pay'});
 
     default:
       $fh.log('debug', "User haven't decided so far.");

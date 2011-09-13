@@ -36,7 +36,7 @@ var responseHandlers = {
   },
   onRetrieveDetails: function(response) {
     if (response.stop) {
-      setStatus('done', 'Transaction cancelled: {reason}'.replace('{reason}', response.stop));
+      setStatus('done', 'Transaction cancelled: {reason}.'.replace('{reason}', response.stop));
     } else {
       communicateTillSuccess('pFinalizePayment', {token: response.token}, responseHandlers.onFinalize);
       setStatus('waiting', "Finalizing payment&hellip;");
