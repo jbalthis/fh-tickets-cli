@@ -54,36 +54,28 @@ var decodePayPalResponse = function (response) {
 
 
 var priceParams = function (tickets) {
-  var ticketKeys = [];
-  for(k in tickets) ticketKeys.push(k); // Object.keys(tickets) is not supported yet.
+  var params = [],
+      n = 0,
+      totalPrice = 0;
 
-  var ticketsToSectors = ticketKeys
-    .filter(function(k) { return sectors[k]; })
-    .map(function(k) { return {number: tickets[k], sector: sectors[k]}; });
+  for (ticketKey in tickets) {
+    var sector = sectors[ticketKey],
+        quantity = tickets[ticketKey];
 
-  $fh.log('debug', 'sdfsdf');
-  $fh.log('debug', Array.prototype.reduce);
-  $fh.log('debug', ticketKeys.reduce);
-  $fh.log('debug', ticketsToSectors.reduce);
-  $fh.log('debug', [].reduce);
-  $fh.log('debug', new Array().reduce);
-  var totalPrice = ticketsToSectors
-    .reduce(function(subTotal, current) { return subTotal + current.number * current.sectors.price; });
+    if (! sector) continue;
 
-  $fh.log('debug', ticketsToSectors.reduce);
-  return ticketsToSectors
-    .map(function(item, index) { //add payment details
-      return [
-        {name: "L_PAYMENTREQUEST_0_NAME" + index, value: item.sector.name},
-        {name: "L_PAYMENTREQUEST_0_QTY"  + index, value: item.number}, //quantity
-        {name: "L_PAYMENTREQUEST_0_AMT"  + index, value: item.sector.price} //item price
-      ];
-    })
-    .concat([ //add some general params
-      {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
-      {name: 'PAYMENTREQUEST_0_AMT', value: totalPrice}
-    ])
-    .reduce(function(flattened, elem) { return flattened.concat(elem); }, []); //flatten this array
+    params.push({name: "L_PAYMENTREQUEST_0_NAME" + n, value: sector.name});
+    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + n, value: quantity});
+    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + n, value: sector.price});
+
+    totalPrice += sector.price * quantity;
+    n++;
+  }
+
+  params.push({name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"});
+  params.push({name: 'PAYMENTREQUEST_0_AMT', value: totalPrice});
+
+  return params;
 };
 
 
