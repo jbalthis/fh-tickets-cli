@@ -1,10 +1,11 @@
-var waitingFor = function(msg) {
-  var spinner = $('#spinner');
+var setStatus = function(kind, msg) {
+  var statusP = $('#status');
   if (msg) {
-    spinner.find('span').html(msg);
-    spinner.show();
+    statusP.find('img').toggle(kind == 'waiting');
+    statusP.find('span').html(msg);
+    statusP.show();
   } else {
-    spinner.hide();
+    statusP.hide();
   }
 };
 
@@ -31,15 +32,18 @@ var responseHandlers = {
     setTimeout(function() {
       communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
     }, 60000);
-    waitingFor("Waiting for user's decision&hellip;");
+    setStatus('waiting', "Waiting for user's decision&hellip;");
   },
   onRetrieveDetails: function(response) {
-    communicateTillSuccess('pFinalizePayment', {token: response.token}, responseHandlers.onFinalize);
-    waitingFor("Finalizing payment&hellip;");
+    if (response.stop) {
+      waitingFor(null);
+    } else {
+      communicateTillSuccess('pFinalizePayment', {token: response.token}, responseHandlers.onFinalize);
+      setStatus('waiting', "Finalizing payment&hellip;");
+    }
   },
   onFinalize: function(response) {
-    alert ('done.');
-    waitingFor(false);
+    setStatus('done', 'Thank you, {customer}, for purchasing tickets.');
   }
 };
 
@@ -50,12 +54,14 @@ var checkOutWithPayPal = function () {
   }
 
   communicateTillSuccess('pSetPayment', {
-    ticketsVIP: $('input[name=VIP]').val(),
-    ticketsA:   $('input[name=SectorA]').val(),
-    ticketsB:   $('input[name=SectorB]').val()
+    tickets: {
+      VIP: $('input[name=VIP]').val(),
+      A:   $('input[name=SectorA]').val(),
+      B:   $('input[name=SectorB]').val()
+    }
   }, responseHandlers.onSetUp);
 
-  waitingFor("Setting up payment&hellip;");
+  setStatus('waiting', "Setting up payment&hellip;");
   return false;
 };
 

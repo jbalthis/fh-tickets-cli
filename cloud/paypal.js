@@ -5,9 +5,15 @@ var API_STD_PARAMS = [
   {name: 'SIGNATURE', value: "AFcWxV21C7fd0v3bYYYRCpSSRl31A3a7vMmHXJAJHHhlsK-5OAyyuu9b"}
 ];
 
-var priceVIP = 300;
-var priceA = 30;
-var priceB = 10;
+
+
+var sectors = {
+  A: {name: "Sector A", price: 30},
+  B: {name: "Sector B", price: 10},
+  VIP: {name: "VIP sector", price: 300}
+};
+
+
 
 var closeWindowResponse = function(response) {
   response.setContentType('text/html');
@@ -47,34 +53,27 @@ var decodePayPalResponse = function (response) {
 
 
 
-var priceParams = function (ticketsVIP, ticketsA, ticketsB) {
-  //Okay, this could be more concise, but I wanted to make it as plain and simple as possible. Even for price of redundant code.
-  var params = [
-    {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
-    {name: 'PAYMENTREQUEST_0_AMT', value: ticketsVIP * priceVIP + ticketsA * priceA + ticketsB * priceB}
-  ];
+var priceParams = function (tickets) {
+  var ticketKeys = Object.keys(tickets);
+  var ticketsToSectors = ticketKeys
+    .filter(function(k) { return sector[k]; })
+    .map(function(k) { return {number: tickets[t], sector: sectors[t]}; });
+  var totalPrice = ticketsToSectors
+    .reduce(function(subTotal, current) { return subTotal + current.number * current.sectors.price; });
 
-  var m = 0;
-  if (ticketsVIP > 0) {
-    params.push({name: "L_PAYMENTREQUEST_0_NAME" + m, value: "VIP Sector tickets"});
-    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + m, value: ticketsVIP});
-    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + m, value: priceVIP});
-    m++;
-  }
-  if (ticketsA > 0) {
-    params.push({name: "L_PAYMENTREQUEST_0_NAME" + m, value: "Sector A tickets"});
-    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + m, value: ticketsA});
-    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + m, value: priceA});
-    m++;
-  }
-  if (ticketsB > 0) {
-    params.push({name: "L_PAYMENTREQUEST_0_NAME" + m, value: "Sector B tickets"});
-    params.push({name: "L_PAYMENTREQUEST_0_QTY"  + m, value: ticketsB});
-    params.push({name: "L_PAYMENTREQUEST_0_AMT"  + m, value: priceB});
-    m++;
-  }
-
-  return params;
+  return ticketsToSectors
+    .map(function(item, index) { //add payment details
+      return [
+        {name: "L_PAYMENTREQUEST_0_NAME" + index, value: item.sector.name},
+        {name: "L_PAYMENTREQUEST_0_QTY"  + index, value: item.number},
+        {name: "L_PAYMENTREQUEST_0_AMT"  + index, value: item.sector.price}
+      ];
+    })
+    .concat([ //add some general params
+      {name: 'PAYMENTREQUEST_0_CURRENCYCODE', value: "EUR"},
+      {name: 'PAYMENTREQUEST_0_AMT', value: totalPrice}
+    ])
+    .reduce(function(flattened, elem) { return flattened.concat(elem); }, []); //flatten this array
 };
 
 
@@ -85,7 +84,7 @@ var tryCommunicatingWithPayPal = function (params) {
     method: 'POST',
     charset: 'UTF-8',
     contentType: 'text/plain',
-    params: params,
+    params: params.concat(API_STD_PARAMS),
     headers: [],
     cookies: [],
     period: 8000,
@@ -93,11 +92,15 @@ var tryCommunicatingWithPayPal = function (params) {
   });
 
   if (response.body) {
-    return decodePayPalResponse(response.body);
+    var decoded = decodePayPalResponse(response.body);
+    $fh.log('debug', 'PayPal responded with: {resp}'.inject({resp: $fh.stringify(decoded)}));
+    return decoded;
   } else {
     return false;
   }
 };
+
+
 
 var saveToCache = function(token, object) {
   var cacheResult = $fh.cache({
@@ -108,6 +111,14 @@ var saveToCache = function(token, object) {
   });
   return (cacheResult.result == 'ok');
 };
+
+
+
+String.prototype.inject = function(substitutions) {
+  var substitutionKeys = Object.keys(substitutions);
+  return this.replace(/\{(\w+)\}/, function(keyWithBrackets, keyName) { return substitutions.keyName || keyWithBrackets; });
+};
+
 
 var loadFromCache = function(token) {
   var cached = $fh.cache({
@@ -123,8 +134,7 @@ var loadFromCache = function(token) {
   }
 };
 
-var deleteFromCache = function(token) {
-};
+
 
 var userAcceptsOrDenies = function(token, newStatus) {
   var storedDetails = loadFromCache(token);
