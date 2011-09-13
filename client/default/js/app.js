@@ -36,14 +36,16 @@ var responseHandlers = {
   },
   onRetrieveDetails: function(response) {
     if (response.stop) {
-      waitingFor(null);
+      setStatus('done', 'Transaction cancelled: {reason}'.replace('{reason}', response.stop));
     } else {
       communicateTillSuccess('pFinalizePayment', {token: response.token}, responseHandlers.onFinalize);
       setStatus('waiting', "Finalizing payment&hellip;");
     }
   },
   onFinalize: function(response) {
-    setStatus('done', 'Thank you, {customer}, for purchasing tickets.');
+    setStatus('done', 'Thank you, {customer}, for purchasing {count} tickets.')
+      .replace('{customer}', response.customer)
+      .replace('{count}', response.tickets.A + response.tickets.B + response.tickets.VIP);
   }
 };
 
