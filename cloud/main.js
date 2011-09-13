@@ -9,6 +9,7 @@ function pSetPayment() {
 
   $fh.log('debug', Object);
   $fh.log('debug', Object.keys);
+  $fh.log('debug', {}.keys);
   $fh.log('debug', 'User wants to pay for {VIP} tickets to VIP sector, {A} to Sector A and {B} to Sector B.'.replace('{A}', tickets.A).replace('{B}', tickets.B).replace('{VIP}', tickets.VIP));
 
   var requestParams = priceParams(tickets)
