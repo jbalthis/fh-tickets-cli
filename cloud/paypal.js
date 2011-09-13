@@ -59,7 +59,7 @@ var priceParams = function (tickets) {
 
   var ticketsToSectors = ticketKeys
     .filter(function(k) { return sectors[k]; })
-    .map(function(k) { return {number: tickets[t], sector: sectors[t]}; });
+    .map(function(k) { return {number: tickets[k], sector: sectors[k]}; });
   var totalPrice = ticketsToSectors
     .reduce(function(subTotal, current) { return subTotal + current.number * current.sectors.price; });
 
