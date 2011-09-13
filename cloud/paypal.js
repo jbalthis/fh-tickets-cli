@@ -58,7 +58,7 @@ var priceParams = function (tickets) {
   for(k in tickets) ticketKeys.push(k); // Object.keys(tickets) is not supported yet.
 
   var ticketsToSectors = ticketKeys
-    .filter(function(k) { return sector[k]; })
+    .filter(function(k) { return sectors[k]; })
     .map(function(k) { return {number: tickets[t], sector: sectors[t]}; });
   var totalPrice = ticketsToSectors
     .reduce(function(subTotal, current) { return subTotal + current.number * current.sectors.price; });
