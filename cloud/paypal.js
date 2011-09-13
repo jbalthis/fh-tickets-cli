@@ -61,7 +61,10 @@ var priceParams = function (tickets) {
     .filter(function(k) { return sectors[k]; })
     .map(function(k) { return {number: tickets[k], sector: sectors[k]}; });
 
+  $fh.log('debug', 'sdfsdf');
+  $fh.log('debug', Array.prototype.reduce);
   $fh.log('debug', ticketKeys.reduce);
+  $fh.log('debug', ticketsToSectors.reduce);
   var totalPrice = ticketsToSectors
     .reduce(function(subTotal, current) { return subTotal + current.number * current.sectors.price; });
 
