@@ -56,7 +56,7 @@ function pRetrievePayerDetails() {
       $fh.log('debug', "On request for customer's details, PayPal responded with: {response}".inject({response: $fh.stringify(detailsResponse)}));
 
       if (detailsResponse.ACK !== 'Success') {
-        $fh.log('error', '[CID: {CID}] Some error when retrieving payment details.'.inject({detailsResponse.CORRELATIONID}));
+        $fh.log('error', '[CID: {CID}] Some error when retrieving payment details.'.inject({CID: detailsResponse.CORRELATIONID}));
         return ({'status': 'error'});
       }
 
