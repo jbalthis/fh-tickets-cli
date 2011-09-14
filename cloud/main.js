@@ -17,7 +17,7 @@ function pSetPayment() {
   var response = tryCommunicatingWithPayPal(requestParams);
 
   if (!response) {
-    $fh.log('error', 'Timeouts when trying to set up payment.');
+    $fh.log('error', 'Timeouts, retry later.');
     return ({'status': 'error'});
   }
 
@@ -50,6 +50,11 @@ function pRetrievePayerDetails() {
         {name: 'TOKEN', value: token}
       ]);
       var detailsResponse = tryCommunicatingWithPayPal(detailsParams);
+
+      if (!detailsResponse) {
+        $fh.log('error', 'Timeouts, retry later.');
+        return ({'status': 'error'});
+      }
 
       $fh.log('debug', "On request for customer's details, PayPal responded with: {response}".replace("{response}", $fh.stringify(detailsResponse)));
 
@@ -90,6 +95,11 @@ function pFinalizePayment() {
     ]);
 
   var doResponse = tryCommunicatingWithPayPal(doParams);
+
+  if (!doResponse) {
+    $fh.log('error', 'Timeouts, retry later.');
+    return ({'status': 'error'});
+  }
 
   if (doResponse.ACK !== 'Success') {
     $fh.log('error', '[CID: {CID}] Some payment error when trying to complete payment.'.replace('CID', doResponse.CORRELATIONID));
