@@ -12,7 +12,8 @@ var setStatus = function(kind, msg) {
 var communicateTillSuccess = function(act, req, nextStep) {
   $fh.act({
     act: act,
-    req: req
+    req: req,
+    timestamp: Date.now()
   }, function(response) {
     if (response.status && response.status === 'ok') {
       nextStep(response);
@@ -29,9 +30,7 @@ var responseHandlers = {
   onSetUp: function(response) {
     var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
     $fh.webview(webviewParams);
-    setTimeout(function() {
-      communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
-    }, 60000);
+    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
     setStatus('waiting', "Waiting for user's decision&hellip;");
   },
   onRetrieveDetails: function(response) {
