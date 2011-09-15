@@ -30,10 +30,14 @@ var responseHandlers = {
   onSetUp: function(response) {
     var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
     $fh.webview(webviewParams);
-    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+    setTimeout(function() {
+      communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+    }, 60000);
+//    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
     setStatus('waiting', "Waiting for user's decision&hellip;");
   },
   onRetrieveDetails: function(response) {
+    $fh.webview({act:'close'});
     if (response.stop) {
       setStatus('done', 'Transaction cancelled: {reason}.'.replace('{reason}', response.stop));
     } else {
