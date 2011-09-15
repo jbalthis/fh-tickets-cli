@@ -29,12 +29,17 @@ var communicateTillSuccess = function(act, req, nextStep) {
 var responseHandlers = {
   onSetUp: function(response) {
     var webviewParams = {'url': response.redirectUrl, 'title': "Check out"};
-    $fh.webview(webviewParams);
-    setTimeout(function() {
-      communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
-    }, 60000);
-//    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
-    setStatus('waiting', "Waiting for user's decision&hellip;");
+    $fh.webview(webviewParams,
+      function() {
+        setTimeout(function() {
+          communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+        }, 60000);
+        //    communicateTillSuccess('pRetrievePayerDetails', {token: response.token}, responseHandlers.onRetrieveDetails);
+        setStatus('waiting', "Waiting for user's decision&hellip;");
+      },
+      function() {
+        setStatus('done', "Could not open PayPal's page, please try again.");
+      });
   },
   onRetrieveDetails: function(response) {
     $fh.webview({act:'close'});
