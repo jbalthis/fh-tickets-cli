@@ -45,7 +45,7 @@ var responseHandlers = {
   onFinalize: function(response) {
     var newStatus = 'Thank you, {customer}, for purchasing {count} tickets.'
           .replace('{customer}', response.customer)
-          .replace('{count}', response.tickets.A + response.tickets.B + response.tickets.VIP);
+          .replace('{count}', parseInt(response.tickets.A, 10) + parseInt(response.tickets.B, 10) + parseInt(response.tickets.VIP, 10));
     setStatus('done', newStatus);
   }
 };
